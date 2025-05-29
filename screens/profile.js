@@ -1,11 +1,15 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import Ionicons from "react-native-vector-icons/Ionicons";
+import Button from "../components/Profile/Button";
+import Profiler from "../components/Profile/Profile";
+import Navbar from "../components/Profile/Navbar";
+import List from "../components/Profile/List";
+import Report from "../components/Profile/Report";
+
 const Profile = () => {
   return (
     <SafeAreaView
@@ -17,61 +21,29 @@ const Profile = () => {
       }}
     >
       {/* navbar  */}
+
+      <Navbar />
       <View
         style={{
-          alignItems: "center",
-          flexDirection: "row",
-          justifyContent: "space-between",
-          paddingVertical: wp(2),
-        }}
-      >
-        <TouchableOpacity>
-          <Ionicons name="chevron-back-circle" size={30} color="#0077B6" />
-        </TouchableOpacity>
-        <Text
-          style={{
-            fontSize: wp(5),
-            fontWeight: "bold",
-            color: "#03045E",
-          }}
-        >
-          Profile
-        </Text>
-        <TouchableOpacity>
-          <Ionicons name="settings" size={28} color="#03045e" />
-        </TouchableOpacity>
-      </View>
-      {/* profile  */}
-      <TouchableOpacity
-        style={{
-          height: hp(14),
           width: "100%",
-          backgroundColor: "yellow",
+          backgroundColor: "#0077B6",
           marginVertical: hp(1),
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between",
+          padding: wp(2),
+          paddingHorizontal: wp(3),
+          borderRadius: 8,
+          elevation: 10,
+          shadowColor: "green",
         }}
       >
-        <View>
-          <View
-            style={{
-              width: wp(25),
-              height: wp(25),
-              borderRadius: "100%",
-              overflow: "hidden",
-              backgroundColor: "red",
-            }}
-          >
-            <Image
-              style={{
-                width: wp(25),
-                height: wp(25),
-                // borderRadius: "100%",
-                overflow: "hidden",
-              }}
-              source={require("../assets/images/profile.jpg")}
-            />
-          </View>
-        </View>
-      </TouchableOpacity>
+        <Profiler />
+        {/* edit profile button  */}
+        <Button />
+      </View>
+      {/* <List /> */}
+      <Report />
     </SafeAreaView>
   );
 };
