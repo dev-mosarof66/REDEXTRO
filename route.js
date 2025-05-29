@@ -30,7 +30,7 @@ function MyTabs() {
 
             return <Icon name={icon} size={size} color={color} />;
           },
-          tabBarActiveTintColor: "green",
+          tabBarActiveTintColor: "tomato",
           tabBarStyle: {
             flexDirection: "column",
           },
