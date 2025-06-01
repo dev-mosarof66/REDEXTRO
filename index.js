@@ -1,6 +1,5 @@
 import { registerRootComponent } from 'expo';
 
-import App from './App';
 import MyTabs from './route';
 
 // registerRootComponent calls AppRegistry.registerComponent('main', () => App);

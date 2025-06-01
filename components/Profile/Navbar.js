@@ -5,8 +5,10 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
+import { useNavigation } from "@react-navigation/native";
 
 const Navbar = () => {
+  const navigation = useNavigation();
   return (
     <View
       style={{
@@ -16,7 +18,7 @@ const Navbar = () => {
         paddingVertical: wp(2),
       }}
     >
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.goBack()}>
         <Ionicons name="chevron-back-circle" size={30} color="#0077B6" />
       </TouchableOpacity>
       <Text
@@ -28,9 +30,11 @@ const Navbar = () => {
       >
         Profile
       </Text>
-      <TouchableOpacity style={{
-        paddingRight:wp(1)
-      }}>
+      <TouchableOpacity
+        style={{
+          paddingRight: wp(1),
+        }}
+      >
         <Ionicons name="settings" size={28} color="#03045e" />
       </TouchableOpacity>
     </View>

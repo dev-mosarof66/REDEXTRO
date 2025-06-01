@@ -11,17 +11,15 @@ const Dropdown = ({ selectedValue, onSelect }) => {
   return (
     <View
       style={{
-        paddingLeft: wp(1),
         paddingVertical: wp(2),
-        flexDirection: "row",
       }}
     >
       <Text
         style={{
           fontWeight: "bold",
           fontSize: wp(4),
-          paddingRight: wp(1),
           paddingTop: wp(1),
+          paddingBottom: wp(2),
         }}
       >
         Your Plan will be executed for -

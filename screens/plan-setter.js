@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   StatusBar,
   StyleSheet,
@@ -18,15 +18,16 @@ import {
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
 import Dropdown from "../components/SetPlan/Dropdown";
+import Context from "../store/store";
 
 const PlanSetter = () => {
   const [plan, setPlan] = useState("");
   const [time, setTime] = useState(new Date());
   const [showPicker, setShowPicker] = useState(false);
   const [duration, setDuration] = useState("select time");
-  const [plans, setPlans] = useState([]);
+  const { plans, setPlans } = useContext(Context);
 
-  const handleAddPlan = () => {
+  const handleAddPlan = async () => {
     if (plan.trim()) {
       setPlans([{ text: plan, time, duration }, ...plans]);
       setPlan("");
@@ -68,7 +69,6 @@ const PlanSetter = () => {
             >
               <View
                 style={{
-                  paddingLeft: wp(1),
                   flexDirection: "row",
                   alignItems: "center",
                 }}
@@ -80,7 +80,7 @@ const PlanSetter = () => {
                     paddingRight: wp(1),
                   }}
                 >
-                  Your Plan Will be started at -
+                  Your Plan will be started at -
                 </Text>
                 <View>
                   <Text
