@@ -3,18 +3,35 @@ import { useContext, useEffect, useState } from "react";
 import { ScrollView, StatusBar, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Context from "../store/store";
+import { getItem } from "../utils/asyncStore";
+import DummyPlans from "../dummy/plans";
+import Header from "../components/HOme/Header";
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
+import Banner from "../components/HOme/Banner";
+import Plans from "../components/HOme/Plans";
 const Home = () => {
-  const { plans } = useContext(Context);
+  const { plans, setPlans } = useContext(Context || []);
   useEffect(() => {
-    console.log(plans);
+    const parsedPlans = getItem("plans");
+
+    if (parsedPlans) {
+      // setPlans(parsedPlans);
+    }
   }, []);
+
   return (
-    <SafeAreaView>
+    <SafeAreaView
+      style={{
+        padding: wp(6),
+      }}
+    >
       <StatusBar barStyle="dark-content" backgroundColor="red" />
-      <Text>Home</Text>
-      {plans.map((item, index) => (
-        <Text key={index}>{item.text}</Text>
-      ))}
+      <Header />
+      <Banner />
+      <Plans data = {DummyPlans} />
     </SafeAreaView>
   );
 };

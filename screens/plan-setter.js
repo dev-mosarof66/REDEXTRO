@@ -19,6 +19,7 @@ import {
 } from "react-native-responsive-screen";
 import Dropdown from "../components/SetPlan/Dropdown";
 import Context from "../store/store";
+import {getItem,setItem} from '../utils/asyncStore'
 
 const PlanSetter = () => {
   const [plan, setPlan] = useState("");
