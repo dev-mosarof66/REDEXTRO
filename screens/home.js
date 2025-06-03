@@ -25,13 +25,23 @@ const Home = () => {
   return (
     <SafeAreaView
       style={{
-        padding: wp(6),
+        paddingTop: wp(6),
+        paddingHorizontal: wp(5),
+        flex: 1,
+        backgroundColor: "#CAF0F8"
       }}
     >
-      <StatusBar barStyle="dark-content" backgroundColor="red" />
-      <Header />
-      <Banner />
-      <Plans data = {DummyPlans} />
+      <ScrollView
+        style={{
+          flex: 1,
+        }}
+        showsVerticalScrollIndicator={false}
+      >
+        <StatusBar barStyle="dark-content" backgroundColor="red" />
+        <Header />
+        <Banner />
+        <Plans data={DummyPlans} />
+      </ScrollView>
     </SafeAreaView>
   );
 };

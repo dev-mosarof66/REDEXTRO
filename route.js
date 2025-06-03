@@ -32,7 +32,7 @@ function MyTabs() {
 
               return <Icon name={icon} size={20} color={color} />;
             },
-            tabBarActiveTintColor: "tomato",
+            tabBarActiveTintColor: "white",
             tabBarStyle: {
               flexDirection: "column",
             },
@@ -40,13 +40,16 @@ function MyTabs() {
               fontSize: 11,
               fontWeight: "bold",
             },
-            tabBarInactiveTintColor: "gray",
+            tabBarInactiveTintColor: "#03045E",
             headerShown: false,
+            tabBarActiveBackgroundColor: "#0077B6",
+            tabBarInactiveBackgroundColor: "#00B4D8"
+            // tabBarBackground: "black"
           })}
         >
           <Tab.Screen name="Home" component={HomeScreen} />
-          <Tab.Screen name="Set Plan" component={PlanSetterScreen} />
           <Tab.Screen name="Calendar" component={CalendarScreen} />
+          <Tab.Screen name="Set Plan" component={PlanSetterScreen} />
           <Tab.Screen name="Profile" component={ProfileScreen} />
         </Tab.Navigator>
       </NavigationContainer>

@@ -1,12 +1,15 @@
 import { StyleSheet, Text, View } from "react-native";
-import React from "react";
 import Ongoing from "./Ongoing";
+import PreviousPlans from "./PreviousPlans";
 
 const Plans = ({ data }) => {
   return (
     <View>
       <View>
         <Ongoing data={data} />
+      </View>
+      <View>
+        <PreviousPlans data={data} />
       </View>
     </View>
   );
