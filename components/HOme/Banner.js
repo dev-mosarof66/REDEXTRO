@@ -5,9 +5,10 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import Carousel from "react-native-reanimated-carousel";
-import Icon from "../../assets/icon.png";
+import Icon1 from "../../assets/images/00.jpg";
+import Icon2 from "../../assets/images/01.jpg";
 
-const data = ["Set Your Plan , Get Your Day", "Boost Up Your Day by RED EXTRO"];
+const data = [Icon1, Icon2];
 
 const Banner = () => {
   return (
@@ -25,13 +26,15 @@ const Banner = () => {
         autoPlay={true}
         renderItem={({ item, index }) => (
           <View
+            key={index}
             style={{
-              width: "100%",
               height: "100%",
               alignItems: "center",
               justifyContent: "center",
               flex: 1,
               backgroundColor: "red",
+              borderRadius: 25,
+
             }}
           >
             <View
@@ -41,11 +44,15 @@ const Banner = () => {
                 alignItems: "center",
                 justifyContent: "center",
                 flex: 1,
-                borderWidth: 1,
                 justifyContent: "center",
+                borderRadius: 25
               }}
             >
-              <Text>{item}</Text>
+              <Image style={{
+                width: "100%",
+                height: "100%",
+                resizeMode: "cover",
+              }} source={item} />
             </View>
           </View>
         )}

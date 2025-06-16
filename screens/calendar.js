@@ -9,10 +9,13 @@ import { ScrollView } from 'react-native'
 const Calendar = () => {
   return (
     <SafeAreaView style={{
-      padding: wp(5)
+      padding: wp(5),
+      backgroundColor: "#CAF0F8",
+      flex:1
     }}>
       <ScrollView>
         <Navbar />
+        <CALENDAR />
       </ScrollView>
     </SafeAreaView>
   )

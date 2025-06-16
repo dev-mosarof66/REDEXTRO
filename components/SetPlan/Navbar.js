@@ -16,7 +16,8 @@ const Navbar = () => {
         flexDirection: "row",
         justifyContent: "space-between",
         paddingVertical: wp(2),
-      }} 
+        marginBottom: hp(1)
+      }}
     >
       <TouchableOpacity onPress={() => navigation.goBack()}>
         <Ionicons name="chevron-back-circle" size={30} color="#0077B6" />

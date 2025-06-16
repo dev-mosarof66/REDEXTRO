@@ -1,83 +1,120 @@
-import React, { useState } from "react";
-import { Text, TouchableOpacity, View } from "react-native";
-import Icon from "react-native-vector-icons/Entypo";
-import { widthPercentageToDP as wp } from "react-native-responsive-screen";
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import React, { useState } from 'react'
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
+import Icon from 'react-native-vector-icons/Octicons'
 
-const TimeZone = ["select time", 5, 10, 15, 30, 45, 60, 90, 120];
+const Category = () => {
+  const items = [
+    { id: 0, name: "No Category" },
+    { id: 1, name: "Work" },
+    { id: 2, name: "Personal" },
+    { id: 3, name: "Wishlist" },
+    { id: 4, name: "Birthday" },
+  ]
 
-const Dropdown = ({ selectedValue, onSelect }) => {
-  const [dropdownVisible, setDropdownVisible] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(items[0].name)
+  const [open, setOpen] = useState(false)
 
   return (
-    <View
-      style={{
-        paddingVertical: wp(2),
-      }}
-    >
-      <Text
-        style={{
-          fontWeight: "bold",
-          fontSize: wp(4),
-          paddingTop: wp(1),
-          paddingBottom: wp(2),
-        }}
+    <View style={styles.container}>
+      {/* Dropdown Trigger */}
+      <TouchableOpacity
+        onPress={() => setOpen(!open)}
+        style={styles.dropdownButton}
+        activeOpacity={0.7}
       >
-        Your Plan will be executed for -
-      </Text>
-      <View
-        style={{
-          borderColor: "rgb(165, 160, 160)",
-          borderWidth: 1,
-          paddingHorizontal: wp(4),
-          paddingVertical: wp(1.5),
-          marginLeft: wp(1),
-          borderRadius: wp(2),
-        }}
-      >
-        <TouchableOpacity
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-          }}
-          onPress={() => setDropdownVisible(!dropdownVisible)}
-        >
-          <Text
-            style={{
-              marginRight: wp(1),
-              color: selectedValue === "select time" ? "" : "green",
-              fontWeight:
-                selectedValue === "select time " ? "semibold" : "bold",
-              fontSize: selectedValue === "select time" ? wp(3.8) : wp(4),
-            }}
-          >
-            {selectedValue}
-            {selectedValue === "select time" ? "" : " min"}
-          </Text>
-          {selectedValue === "select time" && (
-            <Icon
-              name={dropdownVisible ? "chevron-up" : "chevron-down"}
-              size={20}
-              color={dropdownVisible ? "red" : "black"}
-            />
-          )}
-        </TouchableOpacity>
+        <Text style={styles.selectedText}>{selectedItem}</Text>
+        <Icon
+          name={open ? 'triangle-up' : 'triangle-down'}
+          color='rgba(5, 113, 115, 0.61)'
+          size={18}
+        />
+      </TouchableOpacity>
 
-        {dropdownVisible &&
-          TimeZone.slice(1).map((item, index) => (
+      {/* Dropdown Popup */}
+      {open && (
+        <View style={styles.dropdown}>
+          {items.map((item) => (
             <TouchableOpacity
-              key={index}
+              key={item.id}
               onPress={() => {
-                onSelect(item);
-                setDropdownVisible(false);
+                setSelectedItem(item.name)
+                setOpen(false)
               }}
-              style={{ paddingVertical: wp(1) }}
+              style={[
+                styles.dropdownItem,
+                selectedItem === item.name && styles.activeItem
+              ]}
             >
-              <Text>{item} min</Text>
+              <Text style={[
+                styles.dropdownText,
+                selectedItem === item.name && styles.activeText
+              ]}>
+                {item.name}
+              </Text>
             </TouchableOpacity>
           ))}
-      </View>
+        </View>
+      )}
     </View>
-  );
-};
+  )
+}
 
-export default Dropdown;
+export default Category
+
+const styles = StyleSheet.create({
+  container: {
+    width: wp(40),
+    position: "relative",
+    padding: wp(1),
+    marginBottom:wp(1)
+  },
+  dropdownButton: {
+    backgroundColor: "rgba(33, 163, 165, 0.24)",
+    paddingVertical: hp(1),
+    paddingHorizontal: wp(3),
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    borderRadius: 10,
+  },
+  selectedText: {
+    color: "rgba(33, 163, 165, 0.6)",
+    fontSize: hp(1.8),
+    fontWeight: "500"
+  },
+  dropdown: {
+    backgroundColor: "#fff",
+    position: "absolute",
+    top: hp(5.2),
+    width: "100%",
+    borderRadius: 10,
+    paddingVertical: hp(1),
+    zIndex: 50,
+
+    // Shadow for iOS
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.15,
+    shadowRadius: 4,
+
+    // Elevation for Android
+    elevation: 4,
+  },
+  dropdownItem: {
+    paddingVertical: hp(1),
+    paddingHorizontal: wp(4),
+  },
+  dropdownText: {
+    color: "#333",
+    fontSize: hp(1.8),
+  },
+  activeItem: {
+    backgroundColor: 'rgba(33, 163, 165, 0.1)',
+    borderRadius: 6,
+  },
+  activeText: {
+    color: "#21A3A5",
+    fontWeight: "bold",
+  },
+})

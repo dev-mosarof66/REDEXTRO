@@ -2,6 +2,8 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import HomeScreen from "./screens/home";
 import { NavigationContainer } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/FontAwesome5";
+import Entypo from "react-native-vector-icons/Entypo";
+import Foundation from "react-native-vector-icons/Foundation";
 import ProfileScreen from "./screens/profile";
 import CalendarScreen from "./screens/calendar";
 import PlanSetterScreen from "./screens/plan-setter";
@@ -19,12 +21,15 @@ function MyTabs() {
               let icon;
               if (route.name === "Home") {
                 icon = "home";
+                return <Entypo name={icon} size={20} color={color} />;
               }
               if (route.name === "Profile") {
-                icon = "user";
+                icon = "user-alt";
               }
               if (route.name === "Calendar") {
-                icon = "calendar-alt";
+                icon = "calendar";
+                return <Foundation name={icon} size={24} color={color} />;
+
               }
               if (route.name === "Set Plan") {
                 icon = "plus";
@@ -48,8 +53,8 @@ function MyTabs() {
           })}
         >
           <Tab.Screen name="Home" component={HomeScreen} />
-          <Tab.Screen name="Calendar" component={CalendarScreen} />
           <Tab.Screen name="Set Plan" component={PlanSetterScreen} />
+          <Tab.Screen name="Calendar" component={CalendarScreen} />
           <Tab.Screen name="Profile" component={ProfileScreen} />
         </Tab.Navigator>
       </NavigationContainer>
