@@ -6,7 +6,10 @@ import { getItem, mergeItem, setItem } from "../utils/asyncStore";
 const Provider = ({ children }) => {
   const [plans, setPlans] = useState([]);
   const [showCalendar, setShowCalendar] = useState(false);
-   const [selectedDate, setSelectedDate] = useState(new Date().toLocaleDateString().replace(/\//g, '-'));
+  const [selectedDate, setSelectedDate] = useState(new Date().toLocaleDateString().replace(/\//g, '-'));
+  const [showTimeModal, setTimeModal] = useState(true)
+  const [time, setTime] = useState(new Date());
+
 
   useEffect(() => {
     const parsedPlans = getItem("plans");
@@ -23,7 +26,12 @@ const Provider = ({ children }) => {
         setPlans,
         showCalendar,
         setShowCalendar,
-        selectedDate, setSelectedDate
+        selectedDate,
+        setSelectedDate,
+        showTimeModal,
+        setTimeModal,
+        time,
+        setTime
       }}
     >
       {children}

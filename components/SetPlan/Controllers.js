@@ -8,7 +8,10 @@ import Context from '../../store/store'
 
 
 const Controllers = () => {
-    const { showCalendar, setShowCalendar, selectedDate, setSelectedDate } = useContext(Context)
+    const { selectedDate, time } = useContext(Context)
+    console.log(time);
+    
+
     const itemList = [
         {
             name: "Due Date",
@@ -19,8 +22,6 @@ const Controllers = () => {
             name: "Time & Reminder",
             Icon: <Clock size={20} color='gray' />,
             content: "NO",
-            onpress: () => <CalendarComp />
-
 
         },
         {
@@ -60,11 +61,12 @@ const Controllers = () => {
 }
 
 const ItemName = ({ item }) => {
-    const { showCalendar, setShowCalendar } = useContext(Context)
+    const { setShowCalendar, setTimeModal } = useContext(Context)
+
 
     const handleOnpress = () => {
         if (item?.name === "Time & Reminder") {
-            console.log("Time & Reminder")
+            setTimeModal(true)
         }
         else if (item?.name === "Repeat Task") {
             console.log("Repeat Task")

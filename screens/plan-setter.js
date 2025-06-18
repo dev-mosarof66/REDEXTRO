@@ -8,6 +8,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import TaskField from '../components/SetPlan/TaskField'
 import Controllers from '../components/SetPlan/Controllers'
 import FloatingCalendar from '../components/SetPlan/FloatingCalendar';
+import FloatingClock from '../components/SetPlan/FloatingClock';
 const PlanSetter = () => {
   return (
     <SafeAreaView style={{
@@ -22,7 +23,8 @@ const PlanSetter = () => {
         <Navbar />
         <TaskField />
         <Controllers />
-        <FloatingCalendar/>
+        <FloatingCalendar />
+        <FloatingClock />
       </View>
     </SafeAreaView>
   )
