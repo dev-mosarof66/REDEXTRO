@@ -52,8 +52,8 @@ function MyTabs() {
             // tabBarBackground: "black"
           })}
         >
-          <Tab.Screen name="Home" component={HomeScreen} />
           <Tab.Screen name="Set Plan" component={PlanSetterScreen} />
+          <Tab.Screen name="Home" component={HomeScreen} />
           <Tab.Screen name="Calendar" component={CalendarScreen} />
           <Tab.Screen name="Profile" component={ProfileScreen} />
         </Tab.Navigator>

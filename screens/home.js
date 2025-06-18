@@ -37,7 +37,7 @@ const Home = () => {
         }}
         showsVerticalScrollIndicator={false}
       >
-        <StatusBar barStyle="dark-content" backgroundColor="red" />
+        <StatusBar barStyle="dark-content" backgroundColor="rgba(0, 191, 255, 0.32)" />
         <Header />
         <Banner />
         <Plans data={DummyPlans} />

@@ -6,9 +6,17 @@ import { getItem, mergeItem, setItem } from "../utils/asyncStore";
 const Provider = ({ children }) => {
   const [plans, setPlans] = useState([]);
   const [showCalendar, setShowCalendar] = useState(false);
+  const [showTimeModal, setTimeModal] = useState(false)
+  const [TaskmodalVisible, setTaskModalVisible] = useState(false);
+
+  // for each plan
+
+  const [category, setCategory] = useState('No Category')
+  const [Title, setTitle] = useState('')
   const [selectedDate, setSelectedDate] = useState(new Date().toLocaleDateString().replace(/\//g, '-'));
-  const [showTimeModal, setTimeModal] = useState(true)
-  const [time, setTime] = useState(new Date());
+  const [time, setTime] = useState(null);
+  const [selectedDay, setSelectedDay] = useState(['No Repeat']);
+  const [Notes, setNotes] = useState('')
 
 
   useEffect(() => {
@@ -31,7 +39,18 @@ const Provider = ({ children }) => {
         showTimeModal,
         setTimeModal,
         time,
-        setTime
+        setTime,
+        TaskmodalVisible,
+        setTaskModalVisible,
+        selectedDay,
+        setSelectedDay,
+        category,
+        setCategory,
+        Title,
+        setTitle,
+        Notes,
+        setNotes
+
       }}
     >
       {children}

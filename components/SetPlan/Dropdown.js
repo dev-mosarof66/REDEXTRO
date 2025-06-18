@@ -1,7 +1,8 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
 import Icon from 'react-native-vector-icons/Octicons'
+import store from '../../store/store'
 
 const Category = () => {
   const items = [
@@ -12,7 +13,7 @@ const Category = () => {
     { id: 4, name: "Birthday" },
   ]
 
-  const [selectedItem, setSelectedItem] = useState(items[0].name)
+  const { category, setCategory } = useContext(store)
   const [open, setOpen] = useState(false)
 
   return (
@@ -23,7 +24,7 @@ const Category = () => {
         style={styles.dropdownButton}
         activeOpacity={0.7}
       >
-        <Text style={styles.selectedText}>{selectedItem}</Text>
+        <Text style={styles.selectedText}>{category}</Text>
         <Icon
           name={open ? 'triangle-up' : 'triangle-down'}
           color='rgba(5, 113, 115, 0.61)'
@@ -38,17 +39,17 @@ const Category = () => {
             <TouchableOpacity
               key={item.id}
               onPress={() => {
-                setSelectedItem(item.name)
+                setCategory(item.name)
                 setOpen(false)
               }}
               style={[
                 styles.dropdownItem,
-                selectedItem === item.name && styles.activeItem
+                category === item.name && styles.activeItem
               ]}
             >
               <Text style={[
                 styles.dropdownText,
-                selectedItem === item.name && styles.activeText
+                category === item.name && styles.activeText
               ]}>
                 {item.name}
               </Text>
@@ -67,7 +68,7 @@ const styles = StyleSheet.create({
     width: wp(40),
     position: "relative",
     padding: wp(1),
-    marginBottom:wp(1)
+    marginBottom: wp(1)
   },
   dropdownButton: {
     backgroundColor: "rgba(33, 163, 165, 0.24)",
