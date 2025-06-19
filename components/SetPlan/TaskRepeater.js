@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
         width: wp(100),
         height: hp(100),
         justifyContent: 'flex-end',
-        backgroundColor: 'rgba(0, 0, 0, 0.61)',
+        backgroundColor: 'rgba(0, 0, 0, 0.68)',
 
     },
     backdrop: {
@@ -122,6 +122,7 @@ const styles = StyleSheet.create({
     modalContent: {
         backgroundColor: 'white',
         width: wp(100),
+        height: hp(60),
         borderTopRightRadius: 20,
         borderTopLeftRadius: 20,
         paddingVertical: 20,

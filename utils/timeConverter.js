@@ -1,4 +1,6 @@
 export default timeConverter = (time) => {
+  console.log(time);
+
   const date = new Date(time);
   const newTime = date.toLocaleTimeString([], {
     hour: "2-digit",

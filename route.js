@@ -8,6 +8,8 @@ import ProfileScreen from "./screens/profile";
 import CalendarScreen from "./screens/calendar";
 import PlanSetterScreen from "./screens/plan-setter";
 import Provider from "./store/Provider";
+import Toast from "react-native-toast-message";
+import {GestureHandlerRootView } from 'react-native-gesture-handler'
 
 const Tab = createBottomTabNavigator();
 
@@ -49,11 +51,10 @@ function MyTabs() {
             headerShown: false,
             tabBarActiveBackgroundColor: "#0077B6",
             tabBarInactiveBackgroundColor: "#00B4D8"
-            // tabBarBackground: "black"
           })}
         >
-          <Tab.Screen name="Set Plan" component={PlanSetterScreen} />
           <Tab.Screen name="Home" component={HomeScreen} />
+          <Tab.Screen name="Set Plan" component={PlanSetterScreen} />
           <Tab.Screen name="Calendar" component={CalendarScreen} />
           <Tab.Screen name="Profile" component={ProfileScreen} />
         </Tab.Navigator>
@@ -62,4 +63,15 @@ function MyTabs() {
   );
 }
 
-export default MyTabs;
+
+const Router = () => {
+  return (
+    <GestureHandlerRootView >
+      <MyTabs />
+      <Toast position="top" />
+
+    </GestureHandlerRootView>
+  )
+}
+
+export default Router;

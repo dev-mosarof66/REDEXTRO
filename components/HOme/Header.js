@@ -25,7 +25,7 @@ const Header = () => {
         <Text
           style={{
             fontWeight: "bold",
-            fontSize: wp(5.2),
+            fontSize: wp(5.5),
           }}
         >
           Good Morning,

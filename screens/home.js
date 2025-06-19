@@ -6,12 +6,14 @@ import Context from "../store/store";
 import { getItem } from "../utils/asyncStore";
 import DummyPlans from "../dummy/plans";
 import Header from "../components/HOme/Header";
+import GestureHandler from '../components/HOme/GestureHandler'
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import Banner from "../components/HOme/Banner";
 import Plans from "../components/HOme/Plans";
+import PlanCard from "../components/HOme/PlanCard";
 const Home = () => {
   const { plans, setPlans } = useContext(Context || []);
   useEffect(() => {
@@ -40,7 +42,9 @@ const Home = () => {
         <StatusBar barStyle="dark-content" backgroundColor="rgba(0, 191, 255, 0.32)" />
         <Header />
         <Banner />
-        <Plans data={DummyPlans} />
+        {/* <Plans data={DummyPlans} /> */}
+        <PlanCard />
+        {/* <GestureHandler /> */}
       </ScrollView>
     </SafeAreaView>
   );
