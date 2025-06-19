@@ -1,12 +1,21 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
+import Greetings from "../../utils/greet";
 
 const Header = () => {
+  const [greeting, setGreeting] = useState('')
+
+  useEffect(() => {
+    setInterval(() => {
+      const greet = Greetings()
+      setGreeting(greet)
+    }, 2000);
+  }, [])
   return (
     <View
       style={{
@@ -28,7 +37,7 @@ const Header = () => {
             fontSize: wp(5.5),
           }}
         >
-          Good Morning,
+          {greeting},
         </Text>
         <Text
           style={{
