@@ -88,10 +88,10 @@ function MyTabs() {
 
 const Router = () => {
   return (
-    <PaperProvider>
-      <Provider>
-        <GestureHandlerRootView style={{ flex: 1 }}>
-          <NavigationContainer>
+    <NavigationContainer>
+      <PaperProvider>
+        <Provider>
+          <GestureHandlerRootView style={{ flex: 1 }}>
             <Stack.Navigator screenOptions={{ headerShown: false }}>
               {/* <Stack.Screen name="onboarding" component={OnboardingScreen} /> */}
               <Stack.Screen name="tabs" component={MyTabs} />
@@ -101,11 +101,11 @@ const Router = () => {
               <Stack.Screen name="Signup" component={SignUpScreen} />
               <Stack.Screen name="Login" component={LoginScreen} />
             </Stack.Navigator>
-          </NavigationContainer>
-          <Toast />
-        </GestureHandlerRootView>
-      </Provider>
-    </PaperProvider>
+            <Toast />
+          </GestureHandlerRootView>
+        </Provider>
+      </PaperProvider>
+    </NavigationContainer>
   );
 };
 

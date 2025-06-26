@@ -82,7 +82,7 @@ const Controllers = () => {
                             fontSize: wp(4.5),
                             color: colors.two,
                             marginLeft: wp(2)
-                        }}>Time & Reminder</Text>
+                        }}>Time & Duration</Text>
                     </View>
                     <TouchableOpacity onPress={() => setTimeModal(true)} style={{
                         backgroundColor: colors.four,
@@ -147,10 +147,7 @@ const Controllers = () => {
                                     reminderTime ? reminderTime.toLocaleTimeString([], {
                                         hour: "2-digit",
                                         minute: "2-digit",
-                                    }) : calculateReminderTime(startingTime, 5).toLocaleTimeString([], {
-                                        hour: "2-digit",
-                                        minute: "2-digit",
-                                    })
+                                    }) : "No"
                                 }</Text>
                         </TouchableOpacity>
                         {/* reminder type  */}

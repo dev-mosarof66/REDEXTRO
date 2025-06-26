@@ -4,14 +4,17 @@ import Context from "./store";
 import { getItem, mergeItem, setItem } from "../utils/asyncStore";
 import Toast from "react-native-toast-message";
 import axiosInstance from '../axios/axios'
-import { formattedDate } from "../utils/timeConverter";
+import { calculateReminderTime, formattedDate } from "../utils/timeConverter";
 import compareDate from "../utils/date";
+import { useNavigation } from "@react-navigation/native";
 
 
 
 
 
 const Provider = ({ children }) => {
+  const navigataion = useNavigation()
+  const [user, setUser] = useState(null)
   const [plans, setPlans] = useState([]);
   const [showCalendar, setShowCalendar] = useState(false);
   const [showTimeModal, setTimeModal] = useState(false)
@@ -21,18 +24,23 @@ const Provider = ({ children }) => {
   const [notificationModal, setNotificationModal] = useState(false)
 
   // for each plan
-
   const [category, setCategory] = useState('No Category')
   const [planTitle, setPlanTitle] = useState('')
   const [startingDate, setStartingDate] = useState(formattedDate());
   //2025-6-24
-  const [startingTime, setStartingTime] = useState(null); //2025-06-23T10:00:00.000Z
+  const [startingTime, setStartingTime] = useState(null);
+  //2025-06-23T10:00:00.000Z
+  const [duration, setDuration] = useState({
+    hour: 0,
+    minutes: 0
+  })
   const [repeatation, setRepeatation] = useState(['No Repeat']);
   const [Notes, setNotes] = useState('')
   const [reminderTime, setReminderTime] = useState(null)
   const [reminderType, setReminderType] = useState('Notification')
 
-  const [user, setUser] = useState(null)
+
+  console.log(startingTime, reminderTime)
 
   //  handle plan
   const handlePlan = async () => {
@@ -53,8 +61,11 @@ const Provider = ({ children }) => {
         startingDate,
         startingTime,
         repeatation,
+        duration,
         Notes,
-        status
+        status,
+        reminderType,
+        reminderTime
       })
         .then((res) => {
           const updatedPlans = [...plans, res?.data?.plan];
@@ -73,15 +84,20 @@ const Provider = ({ children }) => {
           setRepeatation(['No Repeat'])
         })
         .catch((err) => {
-          console.error('Error saving plan:', err?.response?.message);
-          Toast.show({
-            type: 'error',
-            text1: 'Failed to save plan',
-            text1Style: {
-              color: "red",
-              fontSize: 16
-            }
-          });
+          // console.error(err?.response?.status);
+
+          if (err?.response?.status === 403) {
+            Toast.show({
+              type: 'error',
+              text1: 'Login session expired',
+              text1Style: {
+                color: "red",
+                fontSize: 16
+              }
+            })
+            navigataion.navigate('Login')
+          }
+
         });
     }
   }
@@ -121,7 +137,7 @@ const Provider = ({ children }) => {
         setNotes,
         handlePlan,
         user,
-        setUser,
+        setUser, duration, setDuration,
         toggleModal, setToggleModal, reminderModal, setReminderModal, reminderTime, setReminderTime, reminderType, setReminderType, notificationModal, setNotificationModal
 
       }}
