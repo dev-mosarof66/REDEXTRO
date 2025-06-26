@@ -27,9 +27,8 @@ const ProfileScreen = () => {
     >
       {/* navbar  */}
 
-      <Navbar />
+      <Navbar user={user} />
       <Profile user={user} />
-      {/* <List /> */}
       <Report />
     </SafeAreaView>
   );

@@ -6,8 +6,10 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import { useNavigation } from "@react-navigation/native";
+import { UserPen } from 'lucide-react-native'
+import colors from "../../constants/colors";
 
-const Navbar = () => {
+const Navbar = ({ user }) => {
   const navigation = useNavigation();
   return (
     <View
@@ -30,13 +32,16 @@ const Navbar = () => {
       >
         Profile
       </Text>
-      <TouchableOpacity
-        style={{
-          paddingRight: wp(1),
-        }}
-      >
-        <Ionicons name="settings" size={28} color="#03045e" />
-      </TouchableOpacity>
+      {
+        user ? <TouchableOpacity
+          onPress={() => navigation.push('Edit')}
+          style={{
+            paddingRight: wp(1),
+          }}
+        >
+          <UserPen color={colors.two} />
+        </TouchableOpacity> : ""
+      }
     </View>
   );
 };

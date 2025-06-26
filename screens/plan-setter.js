@@ -15,6 +15,8 @@ import TaskRepeater from '../components/SetPlan/TaskRepeater'
 import Button from '../components/SetPlan/Button'
 import store from '../store/store'
 import { formattedDate } from '../utils/timeConverter'
+import Reminder from '../components/SetPlan/Reminder'
+import NotificationModal from '../components/SetPlan/NotificationModal'
 
 const PlanSetter = ({ navigation }) => {
 
@@ -56,6 +58,8 @@ const PlanSetter = ({ navigation }) => {
         <FloatingCalendar />
         <FloatingClock />
         <TaskRepeater />
+        <Reminder />
+        <NotificationModal />
       </View>
       <Button title="Set Plan" onPress={handlePlan} />
     </SafeAreaView>

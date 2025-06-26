@@ -16,7 +16,9 @@ const Provider = ({ children }) => {
   const [showCalendar, setShowCalendar] = useState(false);
   const [showTimeModal, setTimeModal] = useState(false)
   const [TaskmodalVisible, setTaskModalVisible] = useState(false);
-  const [toggleModal,setToggleModal] = useState(false)
+  const [toggleModal, setToggleModal] = useState(false)
+  const [reminderModal, setReminderModal] = useState(false)
+  const [notificationModal, setNotificationModal] = useState(false)
 
   // for each plan
 
@@ -24,10 +26,11 @@ const Provider = ({ children }) => {
   const [planTitle, setPlanTitle] = useState('')
   const [startingDate, setStartingDate] = useState(formattedDate());
   //2025-6-24
-
   const [startingTime, setStartingTime] = useState(null); //2025-06-23T10:00:00.000Z
   const [repeatation, setRepeatation] = useState(['No Repeat']);
   const [Notes, setNotes] = useState('')
+  const [reminderTime, setReminderTime] = useState(null)
+  const [reminderType, setReminderType] = useState('Notification')
 
   const [user, setUser] = useState(null)
 
@@ -92,7 +95,7 @@ const Provider = ({ children }) => {
       setItem("plans", plans);
     }
   }, [plans]);
-  
+
   return (
     <Context.Provider
       value={{
@@ -119,7 +122,7 @@ const Provider = ({ children }) => {
         handlePlan,
         user,
         setUser,
-        toggleModal,setToggleModal
+        toggleModal, setToggleModal, reminderModal, setReminderModal, reminderTime, setReminderTime, reminderType, setReminderType, notificationModal, setNotificationModal
 
       }}
     >

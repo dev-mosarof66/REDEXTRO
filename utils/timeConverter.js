@@ -32,3 +32,12 @@ export const formattedDate = () => {
 };
 
 
+export const calculateReminderTime = (startingTime, reminder) => {
+
+  const now = new Date(startingTime)
+  console.log(now)
+  const reminderTime = new Date(now.getTime() - reminder * 60 * 1000);
+  console.log(reminderTime)
+  return reminderTime;
+
+}

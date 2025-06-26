@@ -42,6 +42,7 @@ const LoginScreen = () => {
             })
             return;
         }
+        console.log(email, password)
 
         await axiosInstance.post('/user/login', {
             email,
@@ -65,7 +66,7 @@ const LoginScreen = () => {
             navigation.navigate('tabs')
 
         }).catch((error) => {
-            console.log(error);
+            console.log('error in login', error);
         })
     };
 

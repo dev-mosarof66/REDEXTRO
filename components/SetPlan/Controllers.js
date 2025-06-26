@@ -13,16 +13,12 @@ import {
 } from 'lucide-react-native';
 import store from '../../store/store';
 import colors from '../../constants/colors';
+import { calculateReminderTime } from '../../utils/timeConverter';
 
 const Controllers = () => {
 
-    const { startingDate, setShowCalendar, showCalendar, setTimeModal, startingTime, setTaskModalVisible, repeatation } = useContext(store)
+    const { startingDate, setShowCalendar, setTimeModal, startingTime, setTaskModalVisible, repeatation, setReminderModal, reminderTime, reminderType, setReminderType, notificationModal, setNotificationModal } = useContext(store)
 
-    // console.log(repeatation);
-
-
-
-    // console.log(showCalendar)
     return (
         <View style={{
             padding: wp(4),
@@ -67,47 +63,130 @@ const Controllers = () => {
 
 
 
-            {/* time  */}
-            <TouchableOpacity onPress={() => setTimeModal(true)} style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                marginBottom: wp(4)
+            <View style={{
+                flexDirection: "column",
             }}>
-                <View style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                }}>
-                    <Clock size={20} color={colors.three} />
-                    <Text style={{
-                        fontSize: wp(4.5),
-                        color: colors.two,
-                        marginLeft: wp(2)
-                    }}>Time & Reminder</Text>
-                </View>
+                {/* time  */}
                 <TouchableOpacity onPress={() => setTimeModal(true)} style={{
-                    backgroundColor: colors.four,
-                    paddingVertical: hp(0.5),
-                    paddingHorizontal: 8,
-                    borderRadius: 5,
-                    shadowColor: "black",
-                    shadowOffset: {
-                        width: 0,
-                        height: 4,
-                    },
-                    shadowOpacity: 0.32,
-                    shadowRadius: 5.46,
-
-                    elevation: 9,
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    marginBottom: hp(2)
                 }}>
-                    <Text style={{
-                        fontWeight: "semibold"
-                    }}>{startingTime ? startingTime.toLocaleTimeString([], {
-                        hour: "2-digit",
-                        minute: "2-digit",
-                    }) : "No"}</Text>
+                    <View style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                    }}>
+                        <Clock size={20} color={colors.three} />
+                        <Text style={{
+                            fontSize: wp(4.5),
+                            color: colors.two,
+                            marginLeft: wp(2)
+                        }}>Time & Reminder</Text>
+                    </View>
+                    <TouchableOpacity onPress={() => setTimeModal(true)} style={{
+                        backgroundColor: colors.four,
+                        paddingVertical: hp(0.5),
+                        paddingHorizontal: 8,
+                        borderRadius: 5,
+                        shadowColor: "black",
+                        shadowOffset: {
+                            width: 0,
+                            height: 4,
+                        },
+                        shadowOpacity: 0.32,
+                        shadowRadius: 5.46,
+
+                        elevation: 9,
+                    }}>
+                        <Text style={{
+                            fontWeight: "semibold"
+                        }}>{startingTime ? startingTime.toLocaleTimeString([], {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                        }) : "No"}</Text>
+                    </TouchableOpacity>
                 </TouchableOpacity>
-            </TouchableOpacity>
+
+                {/* reminder  */}
+                {
+                    startingTime && <View style={{
+                        width: "93%",
+                        alignSelf: "flex-end",
+                        flexDirection: "column",
+                        gap: hp(2),
+                        marginBottom: hp(2)
+                    }}>
+                        {/* reminder time  */}
+                        <TouchableOpacity onPress={() => setReminderModal(true)} style={{
+                            width: "100%",
+                            flexDirection: "row",
+                            alignItems: 'center',
+                            justifyContent: 'space-between'
+                        }}>
+                            <Text style={{
+                                fontSize: wp(4.5),
+                                color: colors.two,
+                                marginLeft: wp(2)
+                            }}>Reminder at</Text>
+                            <Text style={{
+                                backgroundColor: colors.four,
+                                paddingVertical: hp(0.5),
+                                paddingHorizontal: 8,
+                                borderRadius: 5,
+                                shadowColor: "black",
+                                shadowOffset: {
+                                    width: 0,
+                                    height: 4,
+                                },
+                                shadowOpacity: 0.32,
+                                shadowRadius: 5.46,
+
+                                elevation: 9,
+                            }}>{
+                                    reminderTime ? reminderTime.toLocaleTimeString([], {
+                                        hour: "2-digit",
+                                        minute: "2-digit",
+                                    }) : calculateReminderTime(startingTime, 5).toLocaleTimeString([], {
+                                        hour: "2-digit",
+                                        minute: "2-digit",
+                                    })
+                                }</Text>
+                        </TouchableOpacity>
+                        {/* reminder type  */}
+                        <TouchableOpacity onPress={() => setNotificationModal(true)} style={{
+                            width: "100%",
+                            flexDirection: "row",
+                            alignItems: 'center',
+                            justifyContent: 'space-between'
+                        }}>
+                            <Text style={{
+                                fontSize: wp(4.5),
+                                color: colors.two,
+                                marginLeft: wp(2)
+                            }}>Reminder Type</Text>
+                            <Text style={{
+                                backgroundColor: colors.four,
+                                paddingVertical: hp(0.5),
+                                paddingHorizontal: 8,
+                                borderRadius: 5,
+                                shadowColor: "black",
+                                shadowOffset: {
+                                    width: 0,
+                                    height: 4,
+                                },
+                                shadowOpacity: 0.32,
+                                shadowRadius: 5.46,
+
+                                elevation: 9,
+                            }}>
+                                {reminderType}
+
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                }
+            </View>
 
 
             {/* repeat task  */}

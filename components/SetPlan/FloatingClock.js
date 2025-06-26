@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, Platform, Modal, StyleSheet } from 'react
 import DateTimePicker from '@react-native-community/datetimepicker';
 import store from '../../store/store';
 import { StringtimeConverter } from '../../utils/timeConverter';
+import colors from '../../constants/colors';
 
 const FloatingClock = () => {
     const currTime = new Date();
@@ -75,16 +76,21 @@ const FloatingClock = () => {
 
                         <View style={styles.presetContainer}>
                             <TouchableOpacity
-                                onPress={() => handleCustomTime('No Time')}
+                                onPress={() => {
+                                    handleCustomTime('No Time');
+                                    setStartingTime(null)
+                                }}
                                 style={[
                                     styles.presetButton,
                                     {
-                                        borderColor: selectedCustomTime === 'No Time' ? '#007AFF' : 'transparent',
-                                        borderWidth: 2,
+                                        backgroundColor: selectedCustomTime === 'No Time' ? colors.two : 'transparent',
                                     },
                                 ]}
                             >
-                                <Text style={styles.presetText}>No Time</Text>
+                                <Text style={{
+                                    color: selectedCustomTime === 'No Time' ? colors.four : colors.one,
+                                    fontWeight: selectedCustomTime === 'No Time' ? 'bold' : 'semibold'
+                                }}>No Time</Text>
                             </TouchableOpacity>
                             {presetTimes.map((preset, index) => (
                                 <TouchableOpacity
@@ -93,22 +99,24 @@ const FloatingClock = () => {
                                     style={[
                                         styles.presetButton,
                                         {
-                                            borderColor: selectedCustomTime === preset ? '#007AFF' : 'transparent',
-                                            borderWidth: 2,
+                                            backgroundColor: selectedCustomTime === preset ? colors.two : 'transparent',
                                         },
                                     ]}
                                 >
-                                    <Text style={styles.presetText}>{preset}</Text>
+                                    <Text style={{
+                                        color: selectedCustomTime === preset ? colors.four : colors.one,
+                                        fontWeight: selectedCustomTime === preset ? 'bold' : 'semibold'
+                                    }}>{preset}</Text>
                                 </TouchableOpacity>
                             ))}
                         </View>
 
                         <View style={styles.actions}>
                             <TouchableOpacity onPress={() => setTimeModal(false)}>
-                                <Text style={{ color: '#999' }}>CANCEL</Text>
+                                <Text style={{ color: colors.four }}>CANCEL</Text>
                             </TouchableOpacity>
                             <TouchableOpacity onPress={() => setTimeModal(false)}>
-                                <Text style={{ color: '#007AFF' }}>DONE</Text>
+                                <Text style={{ color: colors.three }}>DONE</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -141,6 +149,7 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: 'bold',
         marginBottom: 15,
+        color: colors.two
     },
     clock: {
         alignItems: 'center',
@@ -149,6 +158,7 @@ const styles = StyleSheet.create({
     timeText: {
         fontSize: 32,
         fontWeight: 'bold',
+        color: colors.one
     },
     presetContainer: {
         flexDirection: 'row',
@@ -163,9 +173,6 @@ const styles = StyleSheet.create({
         marginVertical: 5,
         width: '30%',
         alignItems: 'center',
-    },
-    presetText: {
-        fontSize: 14,
     },
     actions: {
         flexDirection: 'row',
