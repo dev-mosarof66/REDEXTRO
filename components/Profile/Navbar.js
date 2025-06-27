@@ -8,6 +8,8 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { UserPen } from 'lucide-react-native'
 import colors from "../../constants/colors";
+import { Button } from 'react-native-paper';
+
 
 const Navbar = ({ user }) => {
   const navigation = useNavigation();
@@ -40,7 +42,18 @@ const Navbar = ({ user }) => {
           }}
         >
           <UserPen color={colors.two} />
-        </TouchableOpacity> : ""
+        </TouchableOpacity> : <TouchableOpacity
+          onPress={() => navigation.push('Edit')}
+          style={{
+            paddingRight: wp(1),
+          }}
+        >
+          <Button textColor={colors.four} buttonColor={colors.one} rippleColor='rgba(167, 167, 167, 0.5)' contentStyle={{
+            padding: 0,
+          }} onPress={() => navigation.push('Login')}>
+            Login
+          </Button>
+        </TouchableOpacity>
       }
     </View>
   );

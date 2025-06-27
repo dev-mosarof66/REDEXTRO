@@ -19,6 +19,9 @@ import PlanModal from "../components/Home/PlanModal";
 const Home = () => {
   const { plans, setPlans, user } = useContext(Context || []);
   const [loading, setLoading] = useState(false)
+  const [todaysPlan, setTodaysPlan] = useState(null)
+  const [completedPlan, setCompletedPlan] = useState(null)
+  const [upcomingPlan, setUpcomingPlan] = useState(null)
 
 
   useEffect(() => {
@@ -30,12 +33,25 @@ const Home = () => {
         console.log(error)
       }).finally(() => {
         setLoading(false)
-
       })
     }
-
     fetchPlans()
   }, [])
+
+
+  //filter all plans 
+
+  useEffect(() => {
+    setLoading(true)
+    const todaysPlan = plans?.filter((plan) => plan?.status === 'TODAY')
+    const CompletedPlan = plans?.filter((plan) => plan?.status === 'PAST')
+    const UpcomingPlan = plans?.filter((plan) => plan?.status === 'FUTURE')
+    // console.log(todaysPlan)
+    setTodaysPlan(todaysPlan)
+    setCompletedPlan(CompletedPlan)
+    setUpcomingPlan(UpcomingPlan)
+    setLoading(false)
+  }, [plans])
 
 
 
@@ -64,8 +80,8 @@ const Home = () => {
       >
         <StatusBar barStyle="dark-content" backgroundColor="rgb(0, 191, 255)" />
         <Header setLoading={setLoading} user={user} />
-        <Ongoing />
-        <Plans />
+        <Ongoing todaysPlans={todaysPlan} setTodaysPlan={setTodaysPlan} />
+        <Plans upcomingPlans={upcomingPlan} completedPlan={completedPlan} todaysPlan={todaysPlan} />
         <PlanModal />
       </SafeAreaView>
     </ScrollView>

@@ -1,5 +1,5 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import colors from '../../constants/colors';
 import {
   widthPercentageToDP as wp,
@@ -8,20 +8,11 @@ import {
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import CheckPlan from './CheckPlan';
 import store from '../../store/store';
-const dummyPlans = [
-  { title: "Read 20 pages of a book", status: "ongoing", statusPercentage: 0.5 },
-  { title: "Finish React Native tutorial", status: "completed", statusPercentage: 1 },
-  { title: "Workout at the gym", status: "upcoming", statusPercentage: 0 },
-  { title: "Complete assignment on payment gateways", status: "ongoing", statusPercentage: 0.3 },
-  { title: "Grocery shopping", status: "completed", statusPercentage: 1 },
-  { title: "Start new coding project", status: "upcoming", statusPercentage: 0 },
-  { title: "Attend team meeting", status: "ongoing", statusPercentage: 0.6 },
-  { title: "Fix bugs in Todo app", status: "completed", statusPercentage: 1 },
-  { title: "Plan weekend trip", status: "upcoming", statusPercentage: 0 },
-  { title: "Watch React conf highlights", status: "upcoming", statusPercentage: 0 },
-];
+import timeConverter, { calculateEndingTime } from '../../utils/timeConverter';
 
-const PlanCard = () => {
+
+const PlanCard = ({ renderedPlans }) => {
+
 
 
   return (
@@ -32,9 +23,9 @@ const PlanCard = () => {
     }}>
 
       {
-        dummyPlans.map((plan, index) => (
+        renderedPlans?.length > 0 ? renderedPlans.map((plan, index) => (
           <Card key={index} plan={plan} />
-        ))
+        )) : <Text>No Plans</Text>
       }
     </View>
   )
@@ -42,10 +33,27 @@ const PlanCard = () => {
 
 
 const Card = ({ plan }) => {
-  const { setToggleModal } = useContext(store)
+  const { setSelectedPlan, setToggleModal } = useContext(store)
+  const [endingTime, setEndingTime] = useState('')
+  const [startingTime, setStartingTime] = useState('')
+  // console.log(plan)
+
+  useEffect(() => {
+    const endTime = calculateEndingTime(plan?.startingTime, plan?.duration).toLocaleTimeString([], {
+      hour: '2-digit',
+      minute: '2-digit',
+    })
+    const startTime = timeConverter(plan?.startingTime).toLocaleTimeString([], {
+      hour: '2-digit',
+      minute: '2-digit',
+    })
+
+    setEndingTime(endTime)
+    setStartingTime(startTime)
+  }, [plan])
 
   return (
-    <TouchableOpacity onPress={() => setToggleModal(true)} style={{
+    <TouchableOpacity onPress={() => { setToggleModal(true); setSelectedPlan(plan) }} style={{
       backgroundColor: colors.five,
       padding: 10,
       paddingVertical: hp(2),
@@ -68,18 +76,22 @@ const Card = ({ plan }) => {
             fontSize: wp(5),
             color: colors.primary,
             fontWeight: "bold"
-          }}>{plan?.title.length > 25 ? plan?.title.slice(0, 25) + "..." : plan?.title}</Text>
-          <Text style={{
-            fontSize: wp(3.5),
-            color: colors.three,
-            fontWeight: "bold"
-          }}>
-            8.00 AM - 9.00 AM
-          </Text>
+          }}>{plan?.planTitle.length > 25 ? plan?.planTitle.slice(0, 25) + "..." : plan?.planTitle}</Text>
+          <View >
+            {
+              plan && <View>
+                <Text style={{
+                  fontSize: wp(3.5),
+                  color: colors.three,
+                  fontWeight: "bold"
+                }}>{startingTime} - {endingTime}</Text>
+              </View>
+            }
+          </View>
         </View>
       </View>
       <View>
-        <CheckPlan />
+        <CheckPlan checked={plan?.checked} />
       </View>
     </TouchableOpacity>
   )

@@ -22,6 +22,7 @@ const Provider = ({ children }) => {
   const [toggleModal, setToggleModal] = useState(false)
   const [reminderModal, setReminderModal] = useState(false)
   const [notificationModal, setNotificationModal] = useState(false)
+  const [selectedPlan,setSelectedPlan] = useState(null)
 
   // for each plan
   const [category, setCategory] = useState('No Category')
@@ -31,7 +32,7 @@ const Provider = ({ children }) => {
   const [startingTime, setStartingTime] = useState(null);
   //2025-06-23T10:00:00.000Z
   const [duration, setDuration] = useState({
-    hour: 0,
+    hours: 0,
     minutes: 0
   })
   const [repeatation, setRepeatation] = useState(['No Repeat']);
@@ -40,7 +41,6 @@ const Provider = ({ children }) => {
   const [reminderType, setReminderType] = useState('Notification')
 
 
-  console.log(startingTime, reminderTime)
 
   //  handle plan
   const handlePlan = async () => {
@@ -84,7 +84,6 @@ const Provider = ({ children }) => {
           setRepeatation(['No Repeat'])
         })
         .catch((err) => {
-          // console.error(err?.response?.status);
 
           if (err?.response?.status === 403) {
             Toast.show({
@@ -102,15 +101,39 @@ const Provider = ({ children }) => {
     }
   }
 
+  const updatePlanStatus = async () => {
+
+    try {
+
+      const updatedPlans = []
+      for (let i = 0; i < plans?.length; i++) {
+        const plan = plans[i];
+        const status = compareDate(plan?.startingDate)
+        await axiosInstance.put(`/plans/update/${plan?._id}`, {
+          status
+        }).then((res) => {
+          updatedPlans.push(res?.data)
+
+
+        }).catch((error) => {
+          console.log(error)
+        })
+      }
+      setPlans(updatedPlans)
+    } catch (error) {
+
+    }
+  }
+
 
   useEffect(() => {
-    const parsedPlans = getItem("plans");
-    if (parsedPlans) {
-      setItem("plans", plans);
-    } else {
-      setItem("plans", plans);
-    }
-  }, [plans]);
+    updatePlanStatus()
+  }, [])
+
+
+
+
+
 
   return (
     <Context.Provider
@@ -138,7 +161,7 @@ const Provider = ({ children }) => {
         handlePlan,
         user,
         setUser, duration, setDuration,
-        toggleModal, setToggleModal, reminderModal, setReminderModal, reminderTime, setReminderTime, reminderType, setReminderType, notificationModal, setNotificationModal
+        toggleModal, setToggleModal, reminderModal, setReminderModal, reminderTime, setReminderTime, reminderType, setReminderType, notificationModal, setNotificationModal,selectedPlan,setSelectedPlan
 
       }}
     >

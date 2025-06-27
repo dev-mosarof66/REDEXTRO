@@ -4,8 +4,9 @@ import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import colors from '../../constants/colors'
+import store from '../../store/store.js';
 
 
 
@@ -23,10 +24,26 @@ const Items = [
     },
 ]
 
-const Plans = () => {
+const Plans = ({ upcomingPlans, completedPlan, todaysPlan }) => {
 
 
     const [selected, setSelected] = useState(1)
+    const [renderedPlans, setRenderedPlans] = useState([])
+
+    useEffect(() => {
+
+        if (selected === 1) {
+            setRenderedPlans(todaysPlan)
+        }
+        else if (selected === 2) {
+            setRenderedPlans(upcomingPlans)
+        }
+        else if (selected === 3) {
+            setRenderedPlans(completedPlan)
+        }
+
+    }, [upcomingPlans, todaysPlan, completedPlan, selected])
+
 
 
     return (
@@ -57,7 +74,7 @@ const Plans = () => {
                     ))
                 }
             </View>
-            <PlanCard />
+            <PlanCard renderedPlans={renderedPlans} />
         </View>
     )
 }

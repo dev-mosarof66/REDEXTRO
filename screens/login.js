@@ -29,6 +29,10 @@ const LoginScreen = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const { setUser } = useContext(store);
+    const [error, setError] = useState({
+        status: '',
+        message: ""
+    })
 
     const handleLogin = async () => {
         if (!email || !password) {
@@ -52,8 +56,6 @@ const LoginScreen = () => {
 
             setUser(res?.data?.user)
 
-
-
             Toast.show({
                 type: 'success',
                 text1: 'Welcome back',
@@ -66,7 +68,49 @@ const LoginScreen = () => {
             navigation.navigate('tabs')
 
         }).catch((error) => {
-            console.log('error in login', error);
+            console.log('error in login', error?.response?.status);
+            setError({
+                status: error?.response?.status,
+                message: error?.response?.data?.message
+
+            })
+
+            if (error?.status === 401) {
+                Toast.show({
+                    type: 'error',
+                    text1: 'Invalid credentials',
+                    text1Style: {
+                        color: "red",
+                        fontSize: 14
+                    }
+                })
+            }
+            else if (error?.status === 500) {
+                navigation.push('Error')
+            }
+            else if (error?.status === 400) {
+                Toast.show({
+                    type: 'error',
+                    text1: 'User not registered.',
+                    text1Style: {
+                        color: "red",
+                        fontSize: 14
+                    }
+                })
+
+                setTimeout(() => {
+                    Toast.show({
+                        type: 'error',
+                        text1: 'Redirecting to signup',
+                        text1Style: {
+                            color: "red",
+                            fontSize: 14
+                        }
+                    })
+                    navigation.push("Signup")
+                }, 4000);
+            }
+
         })
     };
 

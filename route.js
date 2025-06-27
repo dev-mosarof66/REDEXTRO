@@ -25,6 +25,7 @@ import { useContext, useEffect } from "react";
 import store from "./store/store";
 import axiosInstance from "./axios/axios";
 import { PaperProvider } from "react-native-paper";
+import ErrorScreen from "./screens/error";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -89,8 +90,8 @@ function MyTabs() {
 const Router = () => {
   return (
     <NavigationContainer>
-      <PaperProvider>
-        <Provider>
+      <Provider>
+        <PaperProvider>
           <GestureHandlerRootView style={{ flex: 1 }}>
             <Stack.Navigator screenOptions={{ headerShown: false }}>
               {/* <Stack.Screen name="onboarding" component={OnboardingScreen} /> */}
@@ -100,11 +101,12 @@ const Router = () => {
               <Stack.Screen name="Notification" component={Notification} />
               <Stack.Screen name="Signup" component={SignUpScreen} />
               <Stack.Screen name="Login" component={LoginScreen} />
+              <Stack.Screen name="Error" component={ErrorScreen} />
             </Stack.Navigator>
             <Toast />
           </GestureHandlerRootView>
-        </Provider>
-      </PaperProvider>
+        </PaperProvider>
+      </Provider>
     </NavigationContainer>
   );
 };

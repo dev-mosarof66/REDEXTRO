@@ -17,9 +17,9 @@ const Progress = ({ parcentage }) => {
         <View style={styles.container}>
             <View style={styles.row}>
                 <Text variant="titleMedium" style={styles.label}>Progress</Text>
-                <Text style={styles.percent}>{Math.round(progress * 100)}%</Text>
+                <Text style={styles.percent}>{Math.round(progress)}%</Text>
             </View>
-            <ProgressBar progress={progress} color={colors.two} style={styles.progressBar} />
+            <ProgressBar progress={progress / 105} color={colors.two} style={styles.progressBar} />
         </View>
     );
 };
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
         height: 5,
         width: 150,
         borderRadius: 5,
-        backgroundColor: '#d3d3d3',
+        backgroundColor: 'gray',
     },
     percent: {
         fontSize: 12,
