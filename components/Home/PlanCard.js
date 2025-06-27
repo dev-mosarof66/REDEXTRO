@@ -9,11 +9,11 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import CheckPlan from './CheckPlan';
 import store from '../../store/store';
 import timeConverter, { calculateEndingTime } from '../../utils/timeConverter';
+import { registerForPushNotificationsAsync, scheduleReminderNotification, useNotificationListeners } from '../Notification/Notification';
+
 
 
 const PlanCard = ({ renderedPlans }) => {
-
-
 
   return (
     <View style={{
@@ -33,11 +33,11 @@ const PlanCard = ({ renderedPlans }) => {
 
 
 const Card = ({ plan }) => {
-  const { setSelectedPlan, setToggleModal } = useContext(store)
+  const { setSelectedPlan, setToggleModal, setNotificationToken, setNotification, notificationToken, user } = useContext(store)
   const [endingTime, setEndingTime] = useState('')
   const [startingTime, setStartingTime] = useState('')
-  // console.log(plan)
 
+  //handle progress status
   useEffect(() => {
     const endTime = calculateEndingTime(plan?.startingTime, plan?.duration).toLocaleTimeString([], {
       hour: '2-digit',
@@ -51,10 +51,27 @@ const Card = ({ plan }) => {
     setEndingTime(endTime)
     setStartingTime(startTime)
   }, [plan])
+  // console.log(plan)
+  //handle notification call
+  useEffect(() => {
+    registerForPushNotificationsAsync().then(token => {
+      if (token) {
+        const tokenPart = token.match(/\[(.*?)\]/)?.[1];
+        setNotificationToken(tokenPart)
+      }
+    });
+
+
+    scheduleReminderNotification(plan?.reminderTime, plan?.planTitle, plan?.Notes);
+  }, [plan])
+
+
+  useNotificationListeners(setNotification);
+
 
   return (
     <TouchableOpacity onPress={() => { setToggleModal(true); setSelectedPlan(plan) }} style={{
-      backgroundColor: colors.five,
+      backgroundColor: plan?.status === 'PAST' ? colors.four : colors.five,
       padding: 10,
       paddingVertical: hp(2),
       borderRadius: 10,
@@ -91,7 +108,12 @@ const Card = ({ plan }) => {
         </View>
       </View>
       <View>
-        <CheckPlan checked={plan?.checked} />
+        <Text style={{
+          fontSize: wp(2.5),
+          color: colors.three,
+          fontWeight: "bold",
+
+        }}>{plan?.status === 'PAST' && 'COMPLETED'}</Text>
       </View>
     </TouchableOpacity>
   )

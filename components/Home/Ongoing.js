@@ -6,7 +6,7 @@ import colors from '../../constants/colors';
 import { planStatus, progressStatus } from '../../utils/timeConverter';
 import store from '../../store/store';
 
-const Ongoing = ({ todaysPlans, setTodaysPlan }) => {
+const Ongoing = ({ todaysPlans, setTodaysPlan, completedPlan, setCompletedPlan }) => {
     const [ongoingPlans, setOngoingPlans] = useState([]);
     const { plans } = useContext(store)
 
@@ -24,8 +24,7 @@ const Ongoing = ({ todaysPlans, setTodaysPlan }) => {
                         const updated = prevPlans.filter(t => t._id !== plan._id);
                         const checkedPlan = {
                             ...plan,
-                            checked: true,
-                            status: 'COMPLETED', // optional, if you want to update status
+                            status: 'PAST',
                         };
                         return [...updated, checkedPlan];
                     });

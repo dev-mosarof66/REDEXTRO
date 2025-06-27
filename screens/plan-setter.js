@@ -17,6 +17,7 @@ import store from '../store/store'
 import { formattedDate } from '../utils/timeConverter'
 import Reminder from '../components/SetPlan/Reminder'
 import NotificationModal from '../components/SetPlan/NotificationModal'
+import colors from '../constants/colors'
 
 const PlanSetter = ({ navigation }) => {
 
@@ -49,7 +50,7 @@ const PlanSetter = ({ navigation }) => {
       justifyContent: 'space-between'
 
     }}>
-      <StatusBar barStyle="dark-content" backgroundColor="rgba(0, 191, 255, 0.32)" />
+      <StatusBar barStyle="dark-content" backgroundColor={colors.four} />
       <View>
         <Navbar title='Set Your Plan' />
         <Dropdown />

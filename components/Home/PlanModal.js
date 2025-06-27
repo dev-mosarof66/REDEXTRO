@@ -39,7 +39,7 @@ const PlanModal = () => {
                             <View style={{
                                 flexDirection: 'row',
                                 gap: 2,
-                                alignItems: "flex-end"
+                                width:"70%",
                             }}>
                                 <Text style={styles.planTitle}>{selectedPlan.planTitle}</Text>
                                 <Text style={{
@@ -53,12 +53,12 @@ const PlanModal = () => {
                                 fontSize: hp(1.6),
                                 color: colors.four,
                                 marginBottom: hp(1),
-                            }}>{selectedPlan.status === 'COMPLETED' ? <Feather name='check-circle' size={20} /> : selectedPlan.status}</Text>
+                            }}>{selectedPlan.status === 'PAST' ? <Feather name='check-circle' size={20} /> : selectedPlan.status}</Text>
                         </View>
 
                         <Text style={styles.label}>Category:</Text>
 
-                        <Text style={styles.label}>{selectedPlan.status === 'COMPLETED' || selectedPlan.status === 'PAST' ? "Started On" : "Start Time"}:</Text>
+                        <Text style={styles.label}>{selectedPlan.status === 'PAST' || selectedPlan.status === 'PAST' ? "Started On" : "Start Time"}:</Text>
                         <Text style={styles.value}>
                             {moment(selectedPlan.startingTime).format('MMMM Do YYYY, h:mm A')}
                         </Text>

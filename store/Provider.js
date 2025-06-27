@@ -22,7 +22,9 @@ const Provider = ({ children }) => {
   const [toggleModal, setToggleModal] = useState(false)
   const [reminderModal, setReminderModal] = useState(false)
   const [notificationModal, setNotificationModal] = useState(false)
-  const [selectedPlan,setSelectedPlan] = useState(null)
+  const [selectedPlan, setSelectedPlan] = useState(null)
+    const [notifications, setNotifications] = useState([])
+  
 
   // for each plan
   const [category, setCategory] = useState('No Category')
@@ -39,6 +41,8 @@ const Provider = ({ children }) => {
   const [Notes, setNotes] = useState('')
   const [reminderTime, setReminderTime] = useState(null)
   const [reminderType, setReminderType] = useState('Notification')
+  const [notification, setNotification] = useState(null)
+  const [notificationToken, setNotificationToken] = useState(null)
 
 
 
@@ -158,10 +162,10 @@ const Provider = ({ children }) => {
         setPlanTitle,
         Notes,
         setNotes,
-        handlePlan,
+        handlePlan,notifications, setNotifications,
         user,
         setUser, duration, setDuration,
-        toggleModal, setToggleModal, reminderModal, setReminderModal, reminderTime, setReminderTime, reminderType, setReminderType, notificationModal, setNotificationModal,selectedPlan,setSelectedPlan
+        toggleModal, setToggleModal, reminderModal, setReminderModal, reminderTime, setReminderTime, reminderType, setReminderType, notificationModal, setNotificationModal, selectedPlan, setSelectedPlan, notificationToken, setNotificationToken, notification, setNotification
 
       }}
     >

@@ -29,7 +29,7 @@ const CalendarScreen = () => {
       flex: 1,
       position: "relative"
     }}>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <Navbar />
         <Calendar selectedDate={startingDate} setSelectedDate={setStartingDate} />
         <PlansOnDay selectedDate={startingDate} />

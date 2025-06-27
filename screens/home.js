@@ -16,12 +16,13 @@ import PlanModal from "../components/Home/PlanModal";
 
 
 
+
 const Home = () => {
   const { plans, setPlans, user } = useContext(Context || []);
   const [loading, setLoading] = useState(false)
-  const [todaysPlan, setTodaysPlan] = useState(null)
-  const [completedPlan, setCompletedPlan] = useState(null)
-  const [upcomingPlan, setUpcomingPlan] = useState(null)
+  const [todaysPlan, setTodaysPlan] = useState([])
+  const [completedPlan, setCompletedPlan] = useState([])
+  const [upcomingPlan, setUpcomingPlan] = useState([])
 
 
   useEffect(() => {
@@ -36,7 +37,7 @@ const Home = () => {
       })
     }
     fetchPlans()
-  }, [])
+  }, [user])
 
 
   //filter all plans 
@@ -51,36 +52,19 @@ const Home = () => {
     setCompletedPlan(CompletedPlan)
     setUpcomingPlan(UpcomingPlan)
     setLoading(false)
-  }, [plans])
 
 
+  }, [plans,user])
 
-
-  //loader 
-
-  if (loading) {
-    return <Loader />
-  }
+  //loader
+  if (loading) return <Loader />
 
   return (
-    <ScrollView
-      style={{
-        flex: 1,
-        backgroundColor: colors.five,
-
-      }}
-
-      showsVerticalScrollIndicator={false}
+    <ScrollView style={{ flex: 1, backgroundColor: colors.five, }} showsVerticalScrollIndicator={false}
     >
-      <SafeAreaView
-        style={{
-          flex: 1,
-          paddingHorizontal: wp(5)
-        }}
-      >
-        <StatusBar barStyle="dark-content" backgroundColor="rgb(0, 191, 255)" />
+      <SafeAreaView style={{ flex: 1, paddingHorizontal: wp(5) }}>
         <Header setLoading={setLoading} user={user} />
-        <Ongoing todaysPlans={todaysPlan} setTodaysPlan={setTodaysPlan} />
+        <Ongoing todaysPlans={todaysPlan} setTodaysPlan={setTodaysPlan} completedPlan={completedPlan} setCompletedPlan={setCompletedPlan} />
         <Plans upcomingPlans={upcomingPlan} completedPlan={completedPlan} todaysPlan={todaysPlan} />
         <PlanModal />
       </SafeAreaView>

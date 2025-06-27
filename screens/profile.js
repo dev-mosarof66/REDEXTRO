@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Button, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
   widthPercentageToDP as wp,
@@ -9,10 +9,21 @@ import Report from "../components/Profile/Report";
 import { useContext } from "react";
 import store from "../store/store";
 import Profile from "../components/Profile/Profile";
+import axiosInstance from "../axios/axios";
 
 const ProfileScreen = () => {
 
-  const { user } = useContext(store)
+  const { user, setUser,setPlans } = useContext(store)
+
+  const handleLogout = async () => {
+    await axiosInstance.post("/user/logout").then((res) => {
+      console.log(res.data)
+      setUser(null)
+      setPlans([])
+    }).catch((error) => {
+      console.log('error in logout controller', error)
+    })
+  }
 
 
 
@@ -30,6 +41,11 @@ const ProfileScreen = () => {
       <Navbar user={user} />
       <Profile user={user} />
       <Report />
+
+      {
+        user && <Button onPress={() => handleLogout()} title="Logout" />
+      }
+
     </SafeAreaView>
   );
 };
