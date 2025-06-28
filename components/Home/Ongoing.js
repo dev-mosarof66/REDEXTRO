@@ -5,53 +5,85 @@ import Progress from './ProgressBar';
 import colors from '../../constants/colors';
 import { planStatus, progressStatus } from '../../utils/timeConverter';
 import store from '../../store/store';
+import Video from './Video';
+import NoDataFound from './NoDataFound';
+import { Loader } from 'lucide-react-native';
+import { OngoingPlanPlaceholder } from './placeholder';
 
 const Ongoing = ({ todaysPlans, setTodaysPlan, completedPlan, setCompletedPlan }) => {
     const [ongoingPlans, setOngoingPlans] = useState([]);
-    const { plans } = useContext(store)
+    const { plans, setPlans } = useContext(store)
+    const [loading, setLoading] = useState(false)
+    console.log(loading)
 
     useEffect(() => {
-        const interval = setInterval(() => {
-            const ongoing = [];
-            for (let itr = 0; itr < todaysPlans?.length; itr++) {
-                const plan = todaysPlans[itr];
-                const response = planStatus(plan?.startingTime, plan?.duration);
-                if (response === 'Ongoing') {
-                    ongoing.push(plan);
-                }
-                else if (response === 'Completed') {
-                    setTodaysPlan((prevPlans) => {
-                        const updated = prevPlans.filter(t => t._id !== plan._id);
-                        const checkedPlan = {
-                            ...plan,
-                            status: 'PAST',
-                        };
-                        return [...updated, checkedPlan];
-                    });
-                }
-            }
-            setOngoingPlans(ongoing);
-        }, 1000);
 
-        return () => clearInterval(interval);
+        if (todaysPlans.length > 0) {
+            setLoading(true)
+            const interval = setInterval(() => {
+                const ongoing = [];
+                for (let itr = 0; itr < todaysPlans?.length; itr++) {
+                    const plan = todaysPlans[itr];
+                    const response = planStatus(plan?.startingTime, plan?.duration);
+                    if (response === 'Ongoing') {
+                        ongoing.push(plan);
+                    }
+                    else if (response === 'Completed') {
+                        setTodaysPlan((prevPlans) => {
+                            const updated = prevPlans.filter(t => t._id !== plan._id);
+                            const checkedPlan = {
+                                ...plan,
+                                status: 'PAST',
+                            };
+                            return [...updated, checkedPlan];
+                        });
+                        setPlans((prevPlans) => {
+                            const updated = prevPlans.filter(t => t._id !== plan._id);
+                            const checkedPlan = {
+                                ...plan,
+                                status: 'PAST',
+                            };
+                            return [...updated, checkedPlan];
+                        });
+                    }
+                }
+                setOngoingPlans(ongoing);
+            }, 3000);
+            setLoading(false)
+            return () => clearInterval(interval);
+        } else {
+            setOngoingPlans([])
+        }
+
     }, [todaysPlans, plans]);
 
     // console.log(todaysPlans)
 
     return (
-        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            <View style={styles.container}>
-                {ongoingPlans?.length > 0 ? (
-                    ongoingPlans.map((plan, index) => (
-                        <Card plan={plan} key={plan._id || index} />
-                    ))
-                ) : (
-                    <View style={styles.noPlanContainer}>
-                        <Text style={styles.noPlanText}>No Ongoing Plans Right Now</Text>
-                    </View>
-                )}
-            </View>
-        </ScrollView>
+        <View style={{
+            flexDirection: 'row',
+            width: wp(90),
+        }}>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                <View style={[styles.container, {
+                    justifyContent: ongoingPlans.length > 0 ? "flex-start" : 'center',
+                    alignItems: "center",
+                }]}>
+
+                    {
+                        loading ? <OngoingPlanPlaceholder /> : (
+                            ongoingPlans?.length > 0 ? (
+                                ongoingPlans.map((plan, index) => (
+                                    <Card plan={plan} key={plan._id || index} />
+                                ))
+                            ) : (
+                                <NoDataFound title='NO ONGOING PLANS FOUND' />
+                            )
+                        )
+                    }
+                </View>
+            </ScrollView>
+        </View>
     );
 };
 
@@ -90,13 +122,10 @@ export default Ongoing;
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
         flexDirection: 'row',
-        justifyContent: 'center',
-        gap: wp(4),
-        paddingVertical: wp(3),
-        minHeight: hp(30),
+        width: wp(90),
     },
+
     card: {
         backgroundColor: colors.one,
         width: wp(50),

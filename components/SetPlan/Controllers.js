@@ -53,10 +53,11 @@ const Controllers = () => {
                         height: 4,
                     },
                     shadowOpacity: 0.32,
-                    elevation: 9,
+                    elevation: 9
                 }}>
                     <Text style={{
-                        fontWeight: "semibold"
+                        fontWeight: "bold",
+                        color: colors.one
                     }}>{startingDate}</Text>
                 </TouchableOpacity>
             </TouchableOpacity>
@@ -100,7 +101,8 @@ const Controllers = () => {
                         elevation: 9,
                     }}>
                         <Text style={{
-                            fontWeight: "semibold"
+                            fontWeight: "bold",
+                            color: colors.one
                         }}>{startingTime ? startingTime.toLocaleTimeString([], {
                             hour: "2-digit",
                             minute: "2-digit",
@@ -141,7 +143,8 @@ const Controllers = () => {
                                 },
                                 shadowOpacity: 0.32,
                                 shadowRadius: 5.46,
-
+                                fontWeight: "bold",
+                                color: colors.one,
                                 elevation: 9,
                             }}>{
                                     reminderTime ? reminderTime.toLocaleTimeString([], {
@@ -174,8 +177,9 @@ const Controllers = () => {
                                 },
                                 shadowOpacity: 0.32,
                                 shadowRadius: 5.46,
-
                                 elevation: 9,
+                                fontWeight: "bold",
+                                color: colors.one
                             }}>
                                 {reminderType}
 
@@ -224,7 +228,9 @@ const Controllers = () => {
                             elevation: 9,
                         }}>
                             <Text style={{
-                                fontWeight: "semibold"
+                                fontWeight: "bold",
+                                color: colors.one
+
                             }}>NO</Text>
                         </TouchableOpacity>
                     }

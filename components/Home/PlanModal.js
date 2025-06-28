@@ -1,22 +1,49 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
     View,
     Text,
     Modal,
     TouchableOpacity,
     StyleSheet,
+    Button,
+    ToastAndroid,
 } from 'react-native';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import store from '../../store/store';
 import colors from '../../constants/colors';
 import moment from 'moment';
 import Feather from 'react-native-vector-icons/Feather'
+import FontAwesome from 'react-native-vector-icons/FontAwesome'
+import axiosInstance from '../../axios/axios'
+import { useNavigation } from '@react-navigation/native';
 
 const PlanModal = () => {
-    const { toggleModal, setToggleModal, selectedPlan } = useContext(store);
+    const navigation = useNavigation()
+    const { toggleModal, setToggleModal, selectedPlan, plans, setPlans } = useContext(store);
     // console.log(selectedPlan)
+    const [error, setError] = useState(null)
 
     if (!selectedPlan) return null;
+
+
+    const handlePlanDelete = async () => {
+        console.log(selectedPlan)
+        await axiosInstance.delete(`/plans/delete/${selectedPlan?._id}`).then((res) => {
+            console.log(res.data)
+            setPlans(plans.filter((plan) => plan._id !== selectedPlan._id))
+            ToastAndroid.show(
+                'Plan deleted successfully', ToastAndroid.SHORT
+            )
+            setToggleModal(false)
+        }).catch((error) => {
+            console.log(error?.response)
+            if (error?.response?.status === 500) {
+                navigation.push("Error")
+
+            }
+        })
+    }
+
 
     return (
         <Modal
@@ -27,36 +54,50 @@ const PlanModal = () => {
         >
             <View style={styles.overlay}>
                 <View style={styles.modalContent}>
-                    <Text style={styles.title}>Plan Description</Text>
+                    <View style={
+                        {
+                            flexDirection: 'row',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                        }
+                    }>
+                        <Text style={styles.title}>Plan Description</Text>
+                        <TouchableOpacity
+                            style={styles.closeButton}
+                            onPress={() => setToggleModal(false)}
+                        >
+                            <FontAwesome name='times' size={19} color={colors.four} />
+                        </TouchableOpacity>
+                    </View>
                     <View style={{
                         padding: 10
                     }}>
                         <View style={{
                             flexDirection: 'row',
-                            justifyContent: 'space-between',
-                            alignItems: "center"
+                            alignItems: "center",
+                            justifyContent: "space-between"
                         }}>
+                            <Text style={styles.planTitle}>{selectedPlan.planTitle}</Text>
                             <View style={{
-                                flexDirection: 'row',
-                                gap: 2,
-                                width:"70%",
+                                flexDirection: 'column',
+                                gap: hp(1),
+                                alignItems: "center"
                             }}>
-                                <Text style={styles.planTitle}>{selectedPlan.planTitle}</Text>
+                                <Text style={{
+                                    fontSize: hp(1.8),
+                                    color: colors.three,
+                                    fontWeight: "bold",
+                                    alignSelf: "flex-end"
+                                }}> {selectedPlan.category} </Text>
                                 <Text style={{
                                     fontSize: hp(1.6),
-                                    color: colors.three,
+                                    color: colors.four,
                                     marginBottom: hp(1),
-                                    fontWeight: "bold"
-                                }}>( {selectedPlan.category} )</Text>
+                                    marginRight: wp(4)
+                                }}>{selectedPlan.status === 'PAST' ? <Feather name='check-circle' size={20} /> : selectedPlan.status}</Text>
                             </View>
-                            <Text style={{
-                                fontSize: hp(1.6),
-                                color: colors.four,
-                                marginBottom: hp(1),
-                            }}>{selectedPlan.status === 'PAST' ? <Feather name='check-circle' size={20} /> : selectedPlan.status}</Text>
                         </View>
 
-                        <Text style={styles.label}>Category:</Text>
 
                         <Text style={styles.label}>{selectedPlan.status === 'PAST' || selectedPlan.status === 'PAST' ? "Started On" : "Start Time"}:</Text>
                         <Text style={styles.value}>
@@ -85,12 +126,11 @@ const PlanModal = () => {
                             </>
                         ) : null}
 
-                        <TouchableOpacity
-                            style={styles.closeButton}
-                            onPress={() => setToggleModal(false)}
-                        >
-                            <Text style={styles.closeText}>Close</Text>
-                        </TouchableOpacity>
+                        <View style={{
+                            marginTop: hp(2)
+                        }}>
+                            <Button onPress={handlePlanDelete} title='DELETE' color={colors.three} />
+                        </View>
                     </View>
                 </View>
             </View>
@@ -108,7 +148,7 @@ const styles = StyleSheet.create({
     },
     modalContent: {
         width: wp(100),
-        height: hp(65),
+        height: hp(55),
         backgroundColor: colors.six,
         borderTopLeftRadius: wp(5),
         borderTopRightRadius: wp(5),
@@ -125,6 +165,8 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: colors.one,
         marginBottom: hp(1),
+        width: "70%",
+
     },
     label: {
         fontSize: hp(2.4),
@@ -138,10 +180,7 @@ const styles = StyleSheet.create({
         marginBottom: hp(1),
     },
     closeButton: {
-        marginTop: hp(3),
         alignSelf: 'center',
-        paddingVertical: hp(1),
-        paddingHorizontal: wp(10),
         backgroundColor: colors.primary,
         borderRadius: wp(2),
     },

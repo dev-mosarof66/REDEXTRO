@@ -1,4 +1,4 @@
-import { StatusBar, StyleSheet, Text, View } from 'react-native'
+import { StatusBar, StyleSheet, Text, View, Button } from 'react-native'
 import React, { useContext, useEffect } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import Navbar from '../components/SetPlan/Navbar'
@@ -12,12 +12,12 @@ import Controllers from '../components/SetPlan/Controllers'
 import FloatingCalendar from '../components/SetPlan/FloatingCalendar'
 import FloatingClock from '../components/SetPlan/FloatingClock'
 import TaskRepeater from '../components/SetPlan/TaskRepeater'
-import Button from '../components/SetPlan/Button'
 import store from '../store/store'
 import { formattedDate } from '../utils/timeConverter'
 import Reminder from '../components/SetPlan/Reminder'
 import NotificationModal from '../components/SetPlan/NotificationModal'
 import colors from '../constants/colors'
+import ButtonComp from '../components/public/Button'
 
 const PlanSetter = ({ navigation }) => {
 
@@ -51,18 +51,22 @@ const PlanSetter = ({ navigation }) => {
 
     }}>
       <StatusBar barStyle="dark-content" backgroundColor={colors.four} />
+      <View style={{ width: "100%", height: hp(90), justifyContent: 'space-between', flexDirection: "column" }}>
+        <View>
+          <Navbar title='Set Your Plan' />
+          <Dropdown />
+          <TaskInput />
+          <Controllers />
+        </View>
+        <ButtonComp title="Set Plan" onpress={handlePlan} />
+      </View>
       <View>
-        <Navbar title='Set Your Plan' />
-        <Dropdown />
-        <TaskInput />
-        <Controllers />
         <FloatingCalendar />
         <FloatingClock />
         <TaskRepeater />
         <Reminder />
         <NotificationModal />
       </View>
-      <Button title="Set Plan" onPress={handlePlan} />
     </SafeAreaView>
   )
 }

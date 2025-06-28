@@ -2,6 +2,7 @@ import { View, Text, Modal, StyleSheet, TouchableOpacity } from 'react-native'
 import React, { useContext, useState } from 'react'
 import store from '../../store/store'
 import colors from '../../constants/colors'
+import ButtonComp from '../public/Button'
 
 const NotificationModal = () => {
 
@@ -60,20 +61,7 @@ const NotificationModal = () => {
                             ))
                         }
                     </View>
-
-
-
-
-
-
-
-
-                    <TouchableOpacity
-                        style={[styles.button, { backgroundColor: colors.two }]}
-                        onPress={handleClose}
-                    >
-                        <Text style={styles.buttonText}>Close</Text>
-                    </TouchableOpacity>
+                    <ButtonComp title='Close' onpress={() => setNotificationModal(false)} />
                 </View>
             </View>
         </Modal>

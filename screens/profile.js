@@ -1,4 +1,4 @@
-import { Button, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Button, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
   widthPercentageToDP as wp,
@@ -10,10 +10,12 @@ import { useContext } from "react";
 import store from "../store/store";
 import Profile from "../components/Profile/Profile";
 import axiosInstance from "../axios/axios";
+import ButtonComp from "../components/public/Button";
+import PlanStatsCard from "../components/Profile/PlanStatsCard";
 
 const ProfileScreen = () => {
 
-  const { user, setUser,setPlans } = useContext(store)
+  const { user, setUser, setPlans, plans } = useContext(store)
 
   const handleLogout = async () => {
     await axiosInstance.post("/user/logout").then((res) => {
@@ -34,17 +36,26 @@ const ProfileScreen = () => {
         backgroundColor: "#CAF0F8",
         position: "relative",
         paddingHorizontal: wp(4),
+        flexDirection: "column",
+        justifyContent: "space-between"
       }}
     >
       {/* navbar  */}
 
       <Navbar user={user} />
-      <Profile user={user} />
-      <Report />
+      <ScrollView>
+        <View style={{
+          padding:10
+        }}>
+          <Profile user={user} />
+          <PlanStatsCard plans={plans} />
+          <Report plans={plans} />
 
-      {
-        user && <Button onPress={() => handleLogout()} title="Logout" />
-      }
+        </View>
+        {
+          user && <ButtonComp onpress={() => handleLogout()} title="Logout" />
+        }
+      </ScrollView>
 
     </SafeAreaView>
   );

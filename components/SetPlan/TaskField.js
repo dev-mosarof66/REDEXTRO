@@ -23,7 +23,7 @@ const TaskInput = () => {
                     fontWeight: 'bold',
                     color: colors.one
                 }} placeholder="Add Your Plan Title Here"
-                placeholderTextColor={colors.four} />
+                placeholderTextColor={colors.three} />
         </View>
     )
 }

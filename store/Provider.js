@@ -1,12 +1,11 @@
 import { StyleSheet, Text, View } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import Context from "./store";
-import { getItem, mergeItem, setItem } from "../utils/asyncStore";
-import Toast from "react-native-toast-message";
 import axiosInstance from '../axios/axios'
 import { calculateReminderTime, formattedDate } from "../utils/timeConverter";
 import compareDate from "../utils/date";
 import { useNavigation } from "@react-navigation/native";
+import { toast } from "@backpackapp-io/react-native-toast";
 
 
 
@@ -23,8 +22,8 @@ const Provider = ({ children }) => {
   const [reminderModal, setReminderModal] = useState(false)
   const [notificationModal, setNotificationModal] = useState(false)
   const [selectedPlan, setSelectedPlan] = useState(null)
-    const [notifications, setNotifications] = useState([])
-  
+  const [notifications, setNotifications] = useState([])
+
 
   // for each plan
   const [category, setCategory] = useState('No Category')
@@ -43,20 +42,19 @@ const Provider = ({ children }) => {
   const [reminderType, setReminderType] = useState('Notification')
   const [notification, setNotification] = useState(null)
   const [notificationToken, setNotificationToken] = useState(null)
+  const [lastNotificationId, setNotificationId] = useState(null)
 
 
 
   //  handle plan
   const handlePlan = async () => {
     if (!planTitle) {
-      Toast.show({
-        type: 'error',
-        text1: 'Plan title is required',
-        text1Style: {
-          color: "red",
-          fontSize: 16
+      toast.error(
+        "Please enter a plan title",
+        {
+          duration: 800
         }
-      })
+      )
     } else {
       const status = compareDate(startingDate)
       await axiosInstance.post("/plans/", {
@@ -74,14 +72,12 @@ const Provider = ({ children }) => {
         .then((res) => {
           const updatedPlans = [...plans, res?.data?.plan];
           setPlans(updatedPlans);
-          Toast.show({
-            type: 'success',
-            text1: res?.data?.message,
-            text1Style: {
-              color: "green",
-              fontSize: 16
+          toast.success(
+            "Plan created successfully",
+            {
+              duration: 800
             }
-          });
+          )
 
           setPlanTitle('')
           setCategory('No Category')
@@ -90,14 +86,12 @@ const Provider = ({ children }) => {
         .catch((err) => {
 
           if (err?.response?.status === 403) {
-            Toast.show({
-              type: 'error',
-              text1: 'Login session expired',
-              text1Style: {
-                color: "red",
-                fontSize: 16
+            toast.error(
+              "Login session expired. Please Login again",
+              {
+                duration: 2000
               }
-            })
+            )
             navigataion.navigate('Login')
           }
 
@@ -108,11 +102,13 @@ const Provider = ({ children }) => {
   const updatePlanStatus = async () => {
 
     try {
-
+      // console.log("inside the update plan status")
       const updatedPlans = []
+      // console.log(plans)
       for (let i = 0; i < plans?.length; i++) {
         const plan = plans[i];
         const status = compareDate(plan?.startingDate)
+        // console.log(status)
         await axiosInstance.put(`/plans/update/${plan?._id}`, {
           status
         }).then((res) => {
@@ -133,6 +129,30 @@ const Provider = ({ children }) => {
   useEffect(() => {
     updatePlanStatus()
   }, [])
+
+
+  useEffect(() => {
+    const pushNotification = async () => {
+      if (!notification?.request?.identifier || notification?.request?.identifier === lastNotificationId) return;
+      setNotificationId(notification.request.identifier);
+
+      await axiosInstance.post('/user/push/notification', {
+        title: notification?.request?.content?.title,
+        body: notification?.request?.content?.body
+
+      }).then((res) => {
+        console.log("inside push notification frontend")
+
+
+        console.log(res.data)
+      }).catch((error) => {
+        console.log('error in pushing notification ', error?.response)
+      })
+    }
+
+
+    pushNotification()
+  }, [notification])
 
 
 
@@ -162,7 +182,7 @@ const Provider = ({ children }) => {
         setPlanTitle,
         Notes,
         setNotes,
-        handlePlan,notifications, setNotifications,
+        handlePlan, notifications, setNotifications,
         user,
         setUser, duration, setDuration,
         toggleModal, setToggleModal, reminderModal, setReminderModal, reminderTime, setReminderTime, reminderType, setReminderType, notificationModal, setNotificationModal, selectedPlan, setSelectedPlan, notificationToken, setNotificationToken, notification, setNotification

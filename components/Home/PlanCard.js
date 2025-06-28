@@ -10,6 +10,8 @@ import CheckPlan from './CheckPlan';
 import store from '../../store/store';
 import timeConverter, { calculateEndingTime } from '../../utils/timeConverter';
 import { registerForPushNotificationsAsync, scheduleReminderNotification, useNotificationListeners } from '../Notification/Notification';
+import NoDataFound from './NoDataFound';
+import axiosInstance from '../../axios/axios';
 
 
 
@@ -25,7 +27,7 @@ const PlanCard = ({ renderedPlans }) => {
       {
         renderedPlans?.length > 0 ? renderedPlans.map((plan, index) => (
           <Card key={index} plan={plan} />
-        )) : <Text>No Plans</Text>
+        )) : <NoDataFound title='NO PLANS FOUND.' />
       }
     </View>
   )
@@ -63,10 +65,15 @@ const Card = ({ plan }) => {
 
 
     scheduleReminderNotification(plan?.reminderTime, plan?.planTitle, plan?.Notes);
+
   }, [plan])
 
 
   useNotificationListeners(setNotification);
+
+  //handle notification to the backend
+
+
 
 
   return (
@@ -106,14 +113,6 @@ const Card = ({ plan }) => {
             }
           </View>
         </View>
-      </View>
-      <View>
-        <Text style={{
-          fontSize: wp(2.5),
-          color: colors.three,
-          fontWeight: "bold",
-
-        }}>{plan?.status === 'PAST' && 'COMPLETED'}</Text>
       </View>
     </TouchableOpacity>
   )

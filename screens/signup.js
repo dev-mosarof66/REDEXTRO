@@ -22,6 +22,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
 import axiosInstance from '../axios/axios'
 import Toast from 'react-native-toast-message';
+import ButtonComp from '../components/public/Button';
 
 const SignupScreen = () => {
     const navigation = useNavigation();
@@ -156,9 +157,8 @@ const SignupScreen = () => {
                                 />
                             </View>
 
-                            <TouchableOpacity style={styles.button} onPress={handleSignup}>
-                                <Text style={styles.buttonText}>Sign Up</Text>
-                            </TouchableOpacity>
+
+                            <ButtonComp title='Sign up' onpress={handleSignup} />
 
                             <View style={{
                                 flexDirection: 'row',

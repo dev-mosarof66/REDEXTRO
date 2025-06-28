@@ -20,12 +20,14 @@ import OnboardingScreen from "./screens/onboarding";
 
 // Context Provider
 import Provider from "./store/Provider";
-import SetPlan from "./components/Calendar/SetPlan";
+import SetPlan from "./screens/setPlan";
 import { useContext, useEffect } from "react";
 import store from "./store/store";
 import axiosInstance from "./axios/axios";
 import { PaperProvider } from "react-native-paper";
 import ErrorScreen from "./screens/error";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import { Toasts } from "@backpackapp-io/react-native-toast";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -90,23 +92,27 @@ function MyTabs() {
 const Router = () => {
   return (
     <NavigationContainer>
-      <Provider>
-        <PaperProvider>
-          <GestureHandlerRootView style={{ flex: 1 }}>
-            <Stack.Navigator screenOptions={{ headerShown: false }}>
-              {/* <Stack.Screen name="onboarding" component={OnboardingScreen} /> */}
-              <Stack.Screen name="tabs" component={MyTabs} />
-              <Stack.Screen name="EditPlan" component={EditPlan} />
-              <Stack.Screen name="Plan" component={SetPlan} />
-              <Stack.Screen name="Notification" component={Notification} />
-              <Stack.Screen name="Signup" component={SignUpScreen} />
-              <Stack.Screen name="Login" component={LoginScreen} />
-              <Stack.Screen name="Error" component={ErrorScreen} />
-            </Stack.Navigator>
-            <Toast />
-          </GestureHandlerRootView>
-        </PaperProvider>
-      </Provider>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <SafeAreaProvider>
+          <Provider>
+            <PaperProvider>
+              <Stack.Navigator screenOptions={{ headerShown: false }}>
+                {/* <Stack.Screen name="onboarding" component={OnboardingScreen} /> */}
+                <Stack.Screen name="tabs" component={MyTabs} />
+                <Stack.Screen name="EditPlan" component={EditPlan} />
+                <Stack.Screen name="Plan" component={SetPlan} />
+                <Stack.Screen name="Notification" component={Notification} />
+                <Stack.Screen name="Signup" component={SignUpScreen} />
+                <Stack.Screen name="Login" component={LoginScreen} />
+                <Stack.Screen name="Error" component={ErrorScreen} />
+              </Stack.Navigator>
+            </PaperProvider>
+          </Provider>
+
+          <Toasts globalAnimationType="spring" overrideDarkMode={true} />
+        </SafeAreaProvider>
+
+      </GestureHandlerRootView>
     </NavigationContainer>
   );
 };

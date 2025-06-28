@@ -12,6 +12,8 @@ import DateTimePicker from '@react-native-community/datetimepicker'
 import store from '../../store/store'
 import colors from '../../constants/colors'
 import { calculateReminderTime } from '../../utils/timeConverter'
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen'
+import ButtonComp from '../public/Button'
 
 const Reminder = () => {
 
@@ -23,7 +25,7 @@ const Reminder = () => {
     ]
 
 
-    const { reminderModal, setReminderModal, setReminderTime, reminderType, setReminderType, startingTime } = useContext(store)
+    const { reminderModal, setReminderModal, setReminderTime, startingTime } = useContext(store)
     const [time, setTime] = useState(remiderTime[0].time)
 
 
@@ -88,12 +90,11 @@ const Reminder = () => {
                         }
                     </View>
 
-                    <TouchableOpacity
-                        style={[styles.button, { backgroundColor: colors.two }]}
-                        onPress={handleClose}
-                    >
-                        <Text style={styles.buttonText}>Close</Text>
-                    </TouchableOpacity>
+                    <View style={{
+                        marginTop: wp(6),
+                    }}>
+                        <ButtonComp onpress={handleClose} title='Close' />
+                    </View>
                 </View>
             </View>
         </Modal>

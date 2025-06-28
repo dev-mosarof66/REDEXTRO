@@ -8,8 +8,7 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { UserPen } from 'lucide-react-native'
 import colors from "../../constants/colors";
-import { Button } from 'react-native-paper';
-
+import ButtonComp from '../../components/public/Button'
 
 const Navbar = ({ user }) => {
   const navigation = useNavigation();
@@ -48,11 +47,8 @@ const Navbar = ({ user }) => {
             paddingRight: wp(1),
           }}
         >
-          <Button textColor={colors.four} buttonColor={colors.one} rippleColor='rgba(167, 167, 167, 0.5)' contentStyle={{
-            padding: 0,
-          }} onPress={() => navigation.push('Login')}>
-            Login
-          </Button>
+          <ButtonComp title='Login'  onpress={() => navigation.push('Login')} />
+
         </TouchableOpacity>
       }
     </View>

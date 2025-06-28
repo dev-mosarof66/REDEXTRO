@@ -23,6 +23,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
 import axiosInstance from '../axios/axios';
+import ButtonComp from '../components/public/Button';
 
 const LoginScreen = () => {
     const navigation = useNavigation();
@@ -191,9 +192,7 @@ const LoginScreen = () => {
                                 />
                             </View>
 
-                            <TouchableOpacity style={styles.button} onPress={handleLogin}>
-                                <Text style={styles.buttonText}>Login</Text>
-                            </TouchableOpacity>
+                            <ButtonComp title='Login' onpress={handleLogin}/>
 
                             <View style={{
                                 flexDirection: 'row',
