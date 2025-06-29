@@ -37,7 +37,12 @@ const Notification = () => {
   };
 
   useEffect(() => {
-    if (user) fetchNotification();
+    if (user) fetchNotification()
+    else {
+      setTimeout(() => {
+        setLoading(false)
+      }, 2000)
+    }
   }, []);
 
   return (

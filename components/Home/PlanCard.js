@@ -10,10 +10,11 @@ import store from '../../store/store';
 import timeConverter, { calculateEndingTime } from '../../utils/timeConverter';
 import { registerForPushNotificationsAsync, scheduleReminderNotification, useNotificationListeners } from '../Notification/Notification';
 import NoDataFound from './NoDataFound';
+import { PlanCardPlaceholder } from './placeholder';
 
 
 
-const PlanCard = ({ renderedPlans }) => {
+const PlanCard = ({ renderedPlans, loading }) => {
 
   return (
     <View style={{
@@ -23,7 +24,14 @@ const PlanCard = ({ renderedPlans }) => {
     }}>
 
       {
-        renderedPlans?.length > 0 ? renderedPlans.map((plan, index) => (
+        loading ? <>
+          <PlanCardPlaceholder />
+          <PlanCardPlaceholder />
+          <PlanCardPlaceholder />
+          <PlanCardPlaceholder />
+          <PlanCardPlaceholder />
+          <PlanCardPlaceholder />
+        </> : renderedPlans?.length > 0 ? renderedPlans.map((plan, index) => (
           <Card key={index} plan={plan} />
         )) : <NoDataFound title='NO PLANS FOUND.' />
       }

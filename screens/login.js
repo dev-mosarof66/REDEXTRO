@@ -58,7 +58,7 @@ const LoginScreen = () => {
 
         } catch (error) {
             const status = error?.response?.status;
-            console.log(error)
+            console.log(error?.response)
 
             if (status === 401) {
                 toast.error("Invalid credentials", {

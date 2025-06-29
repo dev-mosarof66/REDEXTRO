@@ -61,17 +61,12 @@ const ProfileScreen = () => {
           <Loader />
           :
           <View>
-            <Navbar user={user} />
+            <Navbar user={user} handleLogout={handleLogout} />
 
             <ScrollView contentContainerStyle={styles.scrollContent}>
               <Profile user={user} />
               <PlanStatsCard plans={plans} />
               <Report plans={plans} />
-
-
-              {
-                user && <ButtonComp onpress={handleLogout} title="Logout" />
-              }
 
             </ScrollView>
           </View>

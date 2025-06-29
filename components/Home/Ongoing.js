@@ -6,77 +6,74 @@ import colors from '../../constants/colors';
 import { planStatus, progressStatus } from '../../utils/timeConverter';
 import store from '../../store/store';
 import NoDataFound from './NoDataFound';
-import { OngoingPlanPlaceholder } from './placeholder';
+import CardPlaceholder, { OngoingPlanPlaceholder } from './placeholder';
+import Loader from '../Loader';
 
-const Ongoing = ({ todaysPlans, setTodaysPlan, completedPlan, setCompletedPlan }) => {
+const Ongoing = ({ todaysPlans, setTodaysPlan }) => {
     const [ongoingPlans, setOngoingPlans] = useState([]);
-    const { plans, setPlans } = useContext(store)
-    const [loading, setLoading] = useState(false)
-    console.log(loading)
+    const { plans, setPlans, user } = useContext(store);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        if (!user) {
+            setLoading(false)
+        }
+    }, [])
 
+    useEffect(() => {
         if (todaysPlans.length > 0) {
-            setLoading(true)
+            setLoading(true);
             const interval = setInterval(() => {
                 const ongoing = [];
-                for (let itr = 0; itr < todaysPlans?.length; itr++) {
+
+                for (let itr = 0; itr < todaysPlans.length; itr++) {
                     const plan = todaysPlans[itr];
                     const response = planStatus(plan?.startingTime, plan?.duration);
+
                     if (response === 'Ongoing') {
                         ongoing.push(plan);
-                    }
-                    else if (response === 'Completed') {
-                        setTodaysPlan((prevPlans) => {
-                            const updated = prevPlans.filter(t => t._id !== plan._id);
-                            const checkedPlan = {
-                                ...plan,
-                                status: 'PAST',
-                            };
-                            return [...updated, checkedPlan];
-                        });
-                        setPlans((prevPlans) => {
-                            const updated = prevPlans.filter(t => t._id !== plan._id);
-                            const checkedPlan = {
-                                ...plan,
-                                status: 'PAST',
-                            };
-                            return [...updated, checkedPlan];
-                        });
+                    } else if (response === 'Completed') {
+                        const checkedPlan = { ...plan, status: 'PAST' };
+
+                        setTodaysPlan((prev) => prev.filter(t => t._id !== plan._id).concat(checkedPlan));
+                        setPlans((prev) => prev.filter(t => t._id !== plan._id).concat(checkedPlan));
                     }
                 }
+
                 setOngoingPlans(ongoing);
+                setLoading(false);
             }, 3000);
-            setLoading(false)
+
             return () => clearInterval(interval);
         } else {
-            setOngoingPlans([])
+            setOngoingPlans([]);
         }
-
     }, [todaysPlans, plans]);
 
-    // console.log(todaysPlans)
-
     return (
-        <View style={{
-            flexDirection: 'row',
-            width: wp(90),
-        }}>
+        <View style={styles.wrapper}>
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                 <View style={[styles.container, {
-                    justifyContent: ongoingPlans.length > 0 ? "flex-start" : 'center',
-                    alignItems: "center",
+                    justifyContent: ongoingPlans.length > 0 || loading ? 'flex-start' : 'center',
+                    alignItems: 'center',
                 }]}>
-
                     {
-                        loading ? <OngoingPlanPlaceholder /> : (
-                            ongoingPlans?.length > 0 ? (
-                                ongoingPlans.map((plan, index) => (
-                                    <Card plan={plan} key={plan._id || index} />
-                                ))
-                            ) : (
+                        loading ? (
+                            <View style={styles.container}>
+                                <CardPlaceholder />
+                                <CardPlaceholder />
+                            </View>
+                        ) : ongoingPlans.length > 0 ? (
+                            ongoingPlans.map((plan, index) => (
+                                <Card plan={plan} key={plan._id || index} />
+                            ))
+                        ) : (
+                            <View style={{
+                                width:wp(90),
+                                height:hp(40),
+                            }}>
                                 <NoDataFound title='NO ONGOING PLANS FOUND' />
-                            )
+                            </View>
                         )
                     }
                 </View>
@@ -86,18 +83,16 @@ const Ongoing = ({ todaysPlans, setTodaysPlan, completedPlan, setCompletedPlan }
 };
 
 const Card = ({ plan }) => {
-
-    const [progress, setProgress] = useState(0)
+    const [progress, setProgress] = useState(0);
 
     useEffect(() => {
-
         const interval = setInterval(() => {
-            const res = progressStatus(plan?.startingTime, plan?.duration)
-            setProgress(res)
+            const res = progressStatus(plan?.startingTime, plan?.duration);
+            setProgress(res);
         }, 1000);
 
         return () => clearInterval(interval);
-    }, [plan])
+    }, [plan]);
 
     return (
         <View style={styles.card}>
@@ -106,7 +101,7 @@ const Card = ({ plan }) => {
             </View>
             <View>
                 <Text style={styles.titleText}>
-                    {plan?.planTitle.length > 30 ? plan?.planTitle.slice(0, 30) + '...' : plan?.planTitle}
+                    {plan?.planTitle?.length > 10 ? plan.planTitle.slice(0, 10) + '...' : plan?.planTitle || 'Untitled'}
                 </Text>
             </View>
             <View style={styles.progressContainer}>
@@ -119,11 +114,17 @@ const Card = ({ plan }) => {
 export default Ongoing;
 
 const styles = StyleSheet.create({
-    container: {
+    wrapper: {
         flexDirection: 'row',
         width: wp(90),
+        height: hp(28),
     },
-
+    container: {
+        flexDirection: 'row',
+        gap: wp(4),
+        width: '100%',
+        paddingVertical: hp(2),
+    },
     card: {
         backgroundColor: colors.one,
         width: wp(50),
@@ -149,14 +150,5 @@ const styles = StyleSheet.create({
     progressContainer: {
         flexDirection: 'row',
         marginBottom: wp(2),
-    },
-    noPlanContainer: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: wp(80),
-    },
-    noPlanText: {
-        color: colors.two,
-        fontSize: wp(4),
     },
 });

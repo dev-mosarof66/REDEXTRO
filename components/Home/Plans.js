@@ -4,7 +4,7 @@ import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import {  useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import colors from '../../constants/colors'
 
 
@@ -28,6 +28,7 @@ const Plans = ({ upcomingPlans, completedPlan, todaysPlan }) => {
 
     const [selected, setSelected] = useState(1)
     const [renderedPlans, setRenderedPlans] = useState([])
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
 
@@ -44,12 +45,18 @@ const Plans = ({ upcomingPlans, completedPlan, todaysPlan }) => {
     }, [upcomingPlans, todaysPlan, completedPlan, selected])
 
 
+    useEffect(() => {
+        setTimeout(() => {
+            setLoading(false)
+        }, [4000])
+    }, [selected])
+
 
     return (
         <View style={{
             flex: 1,
             marginVertical: wp(3),
-            marginHorizontal:wp(1)
+            marginHorizontal: wp(1)
         }}>
             <View style={{
                 flexDirection: 'row',
@@ -74,7 +81,7 @@ const Plans = ({ upcomingPlans, completedPlan, todaysPlan }) => {
                     ))
                 }
             </View>
-            <PlanCard renderedPlans={renderedPlans} />
+            <PlanCard renderedPlans={renderedPlans} loading={loading}/>
         </View>
     )
 }

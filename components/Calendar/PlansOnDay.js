@@ -35,7 +35,7 @@ const PlansOnDay = ({ selectedDate }) => {
             marginHorizontal: wp(2)
         }}>
             <View style={{
-                borderRadius: 8,
+                borderRadius: 10,
                 backgroundColor: plansInDay.length > 0 ? colors.four : "transparent",
                 paddingVertical: wp(4)
 

@@ -52,7 +52,8 @@ const Provider = ({ children }) => {
       toast.error(
         "Please enter a plan title",
         {
-          duration: 800
+
+          duration: 1000
         }
       )
     } else {
@@ -75,7 +76,7 @@ const Provider = ({ children }) => {
           toast.success(
             "Plan created successfully",
             {
-              duration: 800
+              duration: 1000
             }
           )
 
@@ -85,7 +86,9 @@ const Provider = ({ children }) => {
         })
         .catch((err) => {
 
-          if (err?.response?.status === 403) {
+          console.log('inside the plan setter function and error ,',err?.data)
+
+          if (err?.response?.status === 401) {
             toast.error(
               "Login session expired. Please Login again",
               {
@@ -93,6 +96,19 @@ const Provider = ({ children }) => {
               }
             )
             navigataion.navigate('Login')
+          }
+
+          if (err?.response?.status === 402) {
+            toast.error(
+              "Plan title,starting date and starting time is required.",
+              {
+                duration: 2000
+              }
+            )
+          }
+
+          if (err?.response?.status === 5000) {
+            navigataion.navigate('Error')
           }
 
         });
