@@ -40,7 +40,8 @@ const Navbar = ({ user }) => {
             paddingRight: wp(1),
           }}
         >
-          <UserPen color={colors.two} />
+          {/* <UserPen color={colors.two} /> */}
+          <Text></Text>
         </TouchableOpacity> : <TouchableOpacity
           onPress={() => navigation.push('Edit')}
           style={{

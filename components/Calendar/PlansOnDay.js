@@ -34,7 +34,12 @@ const PlansOnDay = ({ selectedDate }) => {
         <View style={{
             marginHorizontal: wp(2)
         }}>
-            <View>
+            <View style={{
+                borderRadius: 8,
+                backgroundColor: plansInDay.length > 0 ? colors.four : "transparent",
+                paddingVertical: wp(4)
+
+            }}>
                 {
                     plansInDay?.length > 0 ? plansInDay.map((plan, index) => (
 
@@ -42,16 +47,14 @@ const PlansOnDay = ({ selectedDate }) => {
                             flexDirection: "row",
                             alignItems: "center",
                             gap: hp(1),
-                            marginVertical: hp(0.2),
-                            backgroundColor: plansInDay ? colors.four : "transparent",
                             width: "100%",
-                            borderRadius: 8,
-                            padding: wp(4)
+                            paddingHorizontal: wp(4),
+                            paddingVertical: wp(0.5)
 
                         }}>
                             <Text style={{
                                 fontSize: wp(4.5),
-                                color: plan?.status === 'PAST' ? colors.two : colors.one,
+                                color: plan?.status === 'PAST' ? colors.six : colors.one,
                                 fontWeight: "bold",
                                 marginRight: wp(1)
                             }}>{index + 1}. </Text>

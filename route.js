@@ -29,6 +29,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Toasts } from "@backpackapp-io/react-native-toast";
 import ResetPassword from "./screens/ResetPassword";
 import VerifyEmailScreen from "./screens/verifyEmail";
+import ForgotPasswordScreen from "./screens/forgotpassword";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -107,6 +108,7 @@ const Router = () => {
                 <Stack.Screen name="Login" component={LoginScreen} />
                 <Stack.Screen name="Error" component={ErrorScreen} />
                 <Stack.Screen name="ResetPassword" component={ResetPassword} />
+                <Stack.Screen name="ForgetPassword" component={ForgotPasswordScreen} />
                 <Stack.Screen name="VerifyEmail" component={VerifyEmailScreen} />
               </Stack.Navigator>
             </PaperProvider>

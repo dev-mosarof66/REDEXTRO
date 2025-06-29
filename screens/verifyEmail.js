@@ -15,42 +15,54 @@ import colors from '../constants/colors';
 import ButtonComp from '../components/public/Button';
 import Loader from '../components/Loader';
 import axiosInstance from '../axios/axios';
+import { useNavigation } from '@react-navigation/native';
 
-const VerifyEmailScreen = () => {
+const VerifyEmailScreen = ({ route }) => {
+    const { user } = route.params
     const [email, setEmail] = useState('');
-    const [code, setCode] = useState('');
+    const [code, setCode] = useState(null);
     const [loading, setLoading] = useState(false);
+    const navigation = useNavigation()
 
     const handleVerify = async () => {
-        if (!email || !code) {
-            toast.error("Please enter both email and code", {
-                position: 'top',
-                duration: 3000
-            });
-            return;
-        }
 
         try {
             setLoading(true);
 
             // Replace this with your backend endpoint
-            const response = await axiosInstance.post('/user/verify-email', {
-                email,
-                code
+            const response = await axiosInstance.post(`/user/verify-email/${user?.token}`, {
+                email: user?.email,
+                username: user?.username,
+                password: user?.password,
+                code: code
             });
 
             toast.success("Email verified successfully!", {
                 position: 'top',
-                duration: 3000
+                duration: 2000
             });
+            toast.success("You can login now.", {
+                position: 'top',
+                duration: 2000
+            });
+            navigation.push('Login')
 
             console.log(response.data);
         } catch (error) {
-            console.log(error?.response?.data);
-            toast.error("Verification failed", {
-                position: 'top',
-                duration: 3000
-            });
+            const status = error?.response?.status;
+            if (status === 400) {
+                toast.error('This email is in use. Try another one', {
+                    position: 'top',
+                    duration: 3000,
+                });
+            } else if (status === 500) {
+                navigation.push('Error');
+            } else if (status === 401) {
+                toast.error('Please provide a valid verification code.', {
+                    position: 'top',
+                    duration: 3000,
+                });
+            }
         } finally {
             setLoading(false);
         }
@@ -62,17 +74,6 @@ const VerifyEmailScreen = () => {
         <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
             <Text style={styles.title}>Verify Your Email</Text>
 
-            <View style={styles.inputBox}>
-                <TextInput
-                    style={styles.input}
-                    placeholder="Enter your email"
-                    placeholderTextColor={colors.three}
-                    value={email}
-                    onChangeText={setEmail}
-                    keyboardType="email-address"
-                    autoCapitalize="none"
-                />
-            </View>
 
             <View style={styles.inputBox}>
                 <TextInput
@@ -98,7 +99,7 @@ const styles = StyleSheet.create({
         flexGrow: 1,
         padding: wp(6),
         justifyContent: 'center',
-        backgroundColor: '#fff'
+        backgroundColor: colors.five
     },
     title: {
         fontSize: wp(6),
@@ -112,12 +113,11 @@ const styles = StyleSheet.create({
         borderColor: colors.three,
         borderRadius: 8,
         paddingHorizontal: wp(3),
-        paddingVertical: hp(1),
         marginBottom: hp(2),
         backgroundColor: colors.five
     },
     input: {
         fontSize: wp(4.2),
-        color: colors.two
+        color: colors.three
     }
 });

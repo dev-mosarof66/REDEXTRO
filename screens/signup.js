@@ -54,14 +54,19 @@ const SignupScreen = () => {
         username,
       });
 
-      toast.success('Registration successful. Please login to access', {
+      console.log('inside signup ')
+      console.log(res?.data?.user)
+
+      toast.success('Please verify your e-mail', {
         position: 'top',
         duration: 3000,
       });
 
       timeoutRef.current = setTimeout(() => {
-        navigation.navigate('Login');
-      }, 3000);
+        navigation.navigate('VerifyEmail', {
+          user: res.data.user
+        });
+      }, 1000);
     } catch (error) {
       const status = error?.response?.status;
       if (status === 400) {
@@ -71,11 +76,6 @@ const SignupScreen = () => {
         });
       } else if (status === 500) {
         navigation.push('Error');
-      } else {
-        toast.error('Something went wrong', {
-          position: 'top',
-          duration: 3000,
-        });
       }
     } finally {
       setLoading(false);

@@ -80,9 +80,8 @@ const Card = ({ plan }) => {
       padding: 10,
       paddingVertical: hp(2),
       borderRadius: 10,
-      elevation: 10,
+      elevation: 3,
       shadowColor: "#000",
-      shadowOffset: { x: 0, y: 2 },
       flexDirection: "row",
       alignItems: "center",
       justifyContent: "space-between"

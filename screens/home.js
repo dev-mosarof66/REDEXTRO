@@ -60,10 +60,10 @@ const Home = () => {
   if (loading) return <Loader />
 
   return (
-    <SafeAreaView style={{ flex: 1, paddingHorizontal: wp(5), backgroundColor: colors.five, }}>
+    <SafeAreaView style={{ height:hp(100), paddingHorizontal: wp(4), backgroundColor: colors.five, }}>
       <StatusBar barStyle="dark-content" backgroundColor={colors.four} />
       <Header setLoading={setLoading} user={user} />
-      <ScrollView style={{ flex: 1, }} showsVerticalScrollIndicator={false}
+      <ScrollView style={{ flex:1, }} showsVerticalScrollIndicator={false}
       >
         <Ongoing todaysPlans={todaysPlan} setTodaysPlan={setTodaysPlan} completedPlan={completedPlan} setCompletedPlan={setCompletedPlan} />
         <Plans upcomingPlans={upcomingPlan} completedPlan={completedPlan} todaysPlan={todaysPlan} />

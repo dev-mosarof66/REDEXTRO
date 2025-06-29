@@ -48,7 +48,8 @@ const Plans = ({ upcomingPlans, completedPlan, todaysPlan }) => {
     return (
         <View style={{
             flex: 1,
-            marginVertical: wp(3)
+            marginVertical: wp(3),
+            marginHorizontal:wp(1)
         }}>
             <View style={{
                 flexDirection: 'row',

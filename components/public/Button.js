@@ -5,7 +5,6 @@ import { widthPercentageToDP as wp } from 'react-native-responsive-screen'
 import colors from '../../constants/colors'
 
 const ButtonComp = ({onpress,title}) => {
-    console.log(title)
     return (
 
         <View style={{
