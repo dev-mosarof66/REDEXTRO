@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     },
     value: {
         fontSize: wp(6),
-        color: colors.one,
+        color: colors.three,
         fontWeight: 'bold',
     },
 });

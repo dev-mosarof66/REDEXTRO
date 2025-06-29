@@ -8,9 +8,8 @@ const NotificationModal = () => {
 
     const NotificationType = [
         { id: 1, name: 'Notification' },
-        { id: 2, name: 'Alarm' },
-        { id: 3, name: 'Notification & Alarm' },
-        { id: 4, name: 'Mail' },
+        { id: 2, name: 'E-mail' },
+        { id: 3, name: 'Notification & E-mail' },
 
     ]
 

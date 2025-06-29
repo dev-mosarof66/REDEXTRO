@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { ActivityIndicator, MD2Colors } from 'react-native-paper';
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View, ActivityIndicator } from 'react-native'
+import colors from '../constants/colors';
 
 const Loader = () => {
     return (
@@ -10,7 +10,7 @@ const Loader = () => {
             alignItems: 'center',
             backgroundColor: "#CAF0F8",
         }}>
-            <ActivityIndicator animating={true} color={MD2Colors.red800} />
+            <ActivityIndicator size="large" color={colors.one || "#007BFF"} style={styles.loader} />
 
         </View>
     )
@@ -19,4 +19,8 @@ const Loader = () => {
 export default Loader
 
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+    loader: {
+        marginTop: 20,
+    },
+})

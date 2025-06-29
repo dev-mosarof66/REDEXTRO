@@ -16,12 +16,11 @@ import Feather from 'react-native-vector-icons/Feather'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import axiosInstance from '../../axios/axios'
 import { useNavigation } from '@react-navigation/native';
+import { toast } from '@backpackapp-io/react-native-toast';
 
 const PlanModal = () => {
     const navigation = useNavigation()
     const { toggleModal, setToggleModal, selectedPlan, plans, setPlans } = useContext(store);
-    // console.log(selectedPlan)
-    const [error, setError] = useState(null)
 
     if (!selectedPlan) return null;
 
@@ -31,15 +30,37 @@ const PlanModal = () => {
         await axiosInstance.delete(`/plans/delete/${selectedPlan?._id}`).then((res) => {
             console.log(res.data)
             setPlans(plans.filter((plan) => plan._id !== selectedPlan._id))
-            ToastAndroid.show(
-                'Plan deleted successfully', ToastAndroid.SHORT
+            toast.success(
+                'Plan deleted successfully',
+                {
+                    position: 'top',
+                    duration: 3000,
+                }
             )
             setToggleModal(false)
         }).catch((error) => {
             console.log(error?.response)
             if (error?.response?.status === 500) {
                 navigation.push("Error")
+            }
+            if (error?.response?.status === 401) {
+                toast.error(
+                    'You are not authorized to delete this plan',
+                    {
+                        position: 'top',
+                        duration: 3000,
+                    }
+                )
+            }
+            if (error?.response?.status === 402) {
+                toast.error(
+                    'This plan is not available',
+                    {
 
+                        duration: 3000,
+                        position: "top"
+                    }
+                )
             }
         })
     }

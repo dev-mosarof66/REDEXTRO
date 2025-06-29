@@ -18,10 +18,6 @@ const StatusBarChart = ({ plans }) => {
   const labels = Object.keys(statusCounts);
   const data = Object.values(statusCounts);
 
-  // Empty state fallback
-  if (labels.length === 0) {
-    return <Text style={{ textAlign: 'center', marginTop: 20 }}>No data to display</Text>;
-  }
 
   return (
     <View style={{
@@ -33,28 +29,42 @@ const StatusBarChart = ({ plans }) => {
         marginBottom: hp(1.5),
         fontWeight: "bold"
       }}>Plan Statistics</Text>
-      <ScrollView style={{
-        marginTop: hp(4),
-      }} horizontal={true} showsHorizontalScrollIndicator={false}>
-        <BarChart
-          data={{
-            labels: labels,
-            datasets: [{ data }]
-          }}
-          width={Math.max(screenWidth, labels.length * 60)} // dynamic width
-          height={200}
-          yAxisLabel=""
-          chartConfig={{
-            backgroundGradientFrom: colors.five,
-            backgroundGradientTo: colors.five,
-            color: (opacity = 1) => `rgba(0, 122, 255, ${opacity})`,
-            barPercentage: 0.7,
-          }}
-          verticalLabelRotation={0}
-          showValuesOnTopOfBars
-          fromZero
-        />
-      </ScrollView>
+
+      {
+        labels.length === 0 ? (<View style={{
+          flex: 1,
+          height: hp(36),
+          justifyContent: 'center',
+          alignItems: 'center',
+          flexDirection: 'column',
+          gap: hp(0.6)
+        }}>
+          <Text style={{ textAlign: 'center', fontSize: hp(2.5), fontWeight: "bold", color: colors.one }}>No data to display.</Text>
+          <Text style={{ textAlign: 'center', fontSize: hp(2), fontWeight: "bold", color: colors.three }}>Login for visuals.</Text>
+        </View>) :
+          <ScrollView style={{
+            marginTop: hp(4),
+          }} horizontal={true} showsHorizontalScrollIndicator={false}>
+            <BarChart
+              data={{
+                labels: labels,
+                datasets: [{ data }]
+              }}
+              width={Math.max(screenWidth, labels.length * 60)} // dynamic width
+              height={200}
+              yAxisLabel=""
+              chartConfig={{
+                backgroundGradientFrom: colors.five,
+                backgroundGradientTo: colors.five,
+                color: (opacity = 1) => `rgba(0, 122, 255, ${opacity})`,
+                barPercentage: 0.7,
+              }}
+              verticalLabelRotation={0}
+              showValuesOnTopOfBars
+              fromZero
+            />
+          </ScrollView>
+      }
     </View>
   );
 };

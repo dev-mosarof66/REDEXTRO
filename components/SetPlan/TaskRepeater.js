@@ -11,7 +11,6 @@ import {
     heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import store from '../../store/store';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 const TaskRepeater = () => {
     const { TaskmodalVisible,

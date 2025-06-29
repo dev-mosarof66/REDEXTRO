@@ -2,7 +2,6 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import React, { useContext, useEffect, useState } from 'react';
 import axiosInstance from '../axios/axios';
 import { useNavigation } from '@react-navigation/native';
-import Toast from 'react-native-toast-message';
 import store from '../store/store';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
@@ -10,6 +9,7 @@ import Navbar from '../components/SetPlan/Navbar';
 import colors from '../constants/colors';
 import ShimmerPlaceholder from 'react-native-shimmer-placeholder';
 import LinearGradient from 'expo-linear-gradient';
+import { toast } from '@backpackapp-io/react-native-toast';
 
 
 const Notification = () => {
@@ -25,25 +25,11 @@ const Notification = () => {
       if (error?.response?.status === 500) {
         navigation.push('Error');
       } else if (error?.response?.status === 403) {
-        Toast.show({
-          type: 'error',
-          text1: 'Login session expired.',
-          text1Style: {
-            fontSize: 16,
-            color: "red"
-          }
-        });
-        setTimeout(() => {
-          Toast.show({
-            type: 'error',
-            text1: 'Redirecting to Login.',
-            text1Style: {
-              fontSize: 16,
-              color: "red"
-            }
-          });
-          navigation.push('Login');
-        }, 2000);
+        toast.error(
+          'Login session expired.Redirecting to Login', {
+          position: 'top',
+          duration: 3000
+        })
       }
     } finally {
       setLoading(false);

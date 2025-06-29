@@ -5,9 +5,7 @@ import Progress from './ProgressBar';
 import colors from '../../constants/colors';
 import { planStatus, progressStatus } from '../../utils/timeConverter';
 import store from '../../store/store';
-import Video from './Video';
 import NoDataFound from './NoDataFound';
-import { Loader } from 'lucide-react-native';
 import { OngoingPlanPlaceholder } from './placeholder';
 
 const Ongoing = ({ todaysPlans, setTodaysPlan, completedPlan, setCompletedPlan }) => {

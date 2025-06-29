@@ -13,7 +13,6 @@ import {
 } from 'lucide-react-native';
 import store from '../../store/store';
 import colors from '../../constants/colors';
-import { calculateReminderTime } from '../../utils/timeConverter';
 
 const Controllers = () => {
 

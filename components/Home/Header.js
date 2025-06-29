@@ -29,7 +29,8 @@ const Header = ({ setLoading, user }) => {
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
-        marginVertical: hp(3)
+        marginTop: hp(3),
+        marginBottom: hp(1)
       }}
     >
       <View

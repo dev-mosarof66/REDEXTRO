@@ -1,66 +1,99 @@
-import { Button, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import React, { useContext, useCallback, useState } from "react";
 import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
+  View,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+  ActivityIndicator,
+} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { widthPercentageToDP as wp } from "react-native-responsive-screen";
+import { useNavigation } from "@react-navigation/native";
+import { toast } from "@backpackapp-io/react-native-toast";
+
 import Navbar from "../components/Profile/Navbar";
 import Report from "../components/Profile/Report";
-import { useContext } from "react";
-import store from "../store/store";
 import Profile from "../components/Profile/Profile";
-import axiosInstance from "../axios/axios";
 import ButtonComp from "../components/public/Button";
 import PlanStatsCard from "../components/Profile/PlanStatsCard";
+import store from "../store/store";
+import axiosInstance from "../axios/axios";
+import colors from "../constants/colors";
+import Loader from "../components/Loader";
 
 const ProfileScreen = () => {
+  const navigation = useNavigation();
+  const { user, setUser, plans, setPlans } = useContext(store);
+  const [loading, setLoading] = useState(false);
 
-  const { user, setUser, setPlans, plans } = useContext(store)
-
-  const handleLogout = async () => {
-    await axiosInstance.post("/user/logout").then((res) => {
-      console.log(res.data)
-      setUser(null)
-      setPlans([])
-    }).catch((error) => {
-      console.log('error in logout controller', error)
-    })
-  }
-
-
+  const handleLogout = useCallback(async () => {
+    setLoading(true);
+    try {
+      const res = await axiosInstance.post("/user/logout");
+      console.log(res.data);
+      setUser(null);
+      setPlans([]);
+      toast.success("Logged out successfully", {
+        position: "top",
+        duration: 2000,
+      });
+    } catch (error) {
+      console.log("error in logout controller", error);
+      const status = error?.response?.status;
+      if (status === 500) {
+        navigation.push("Error");
+      } else if (status === 401) {
+        toast.error("Login session expired", {
+          position: "top",
+          duration: 2000,
+        });
+      }
+    } finally {
+      setLoading(false);
+    }
+  }, [navigation, setUser, setPlans]);
 
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        backgroundColor: "#CAF0F8",
-        position: "relative",
-        paddingHorizontal: wp(4),
-        flexDirection: "column",
-        justifyContent: "space-between"
-      }}
-    >
-      {/* navbar  */}
+    <SafeAreaView style={styles.container}>
+      <StatusBar barStyle="dark-content" backgroundColor={colors.four} />
+      {
+        user && loading ?
+          <Loader />
+          :
+          <View>
+            <Navbar user={user} />
 
-      <Navbar user={user} />
-      <ScrollView>
-        <View style={{
-          padding:10
-        }}>
-          <Profile user={user} />
-          <PlanStatsCard plans={plans} />
-          <Report plans={plans} />
+            <ScrollView contentContainerStyle={styles.scrollContent}>
+              <Profile user={user} />
+              <PlanStatsCard plans={plans} />
+              <Report plans={plans} />
 
-        </View>
-        {
-          user && <ButtonComp onpress={() => handleLogout()} title="Logout" />
-        }
-      </ScrollView>
 
+              {
+                user && <ButtonComp onpress={handleLogout} title="Logout" />
+              }
+
+            </ScrollView>
+          </View>
+
+      }
     </SafeAreaView>
   );
 };
 
-export default ProfileScreen;
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#CAF0F8",
+    paddingHorizontal: wp(4),
+  },
+  scrollContent: {
+    padding: 10,
+    paddingBottom: 30,
+  },
+  loader: {
+    marginTop: 20,
+  },
+});
 
-const styles = StyleSheet.create({});
+export default React.memo(ProfileScreen);

@@ -2,7 +2,6 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import Toast from "react-native-toast-message";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import Entypo from "react-native-vector-icons/Entypo";
 import Foundation from "react-native-vector-icons/Foundation";
@@ -28,6 +27,8 @@ import { PaperProvider } from "react-native-paper";
 import ErrorScreen from "./screens/error";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Toasts } from "@backpackapp-io/react-native-toast";
+import ResetPassword from "./screens/ResetPassword";
+import VerifyEmailScreen from "./screens/verifyEmail";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -105,6 +106,8 @@ const Router = () => {
                 <Stack.Screen name="Signup" component={SignUpScreen} />
                 <Stack.Screen name="Login" component={LoginScreen} />
                 <Stack.Screen name="Error" component={ErrorScreen} />
+                <Stack.Screen name="ResetPassword" component={ResetPassword} />
+                <Stack.Screen name="VerifyEmail" component={VerifyEmailScreen} />
               </Stack.Navigator>
             </PaperProvider>
           </Provider>

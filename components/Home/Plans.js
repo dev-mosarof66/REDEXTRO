@@ -4,9 +4,8 @@ import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import { useContext, useEffect, useState } from 'react';
+import {  useEffect, useState } from 'react';
 import colors from '../../constants/colors'
-import store from '../../store/store.js';
 
 
 
@@ -80,5 +79,3 @@ const Plans = ({ upcomingPlans, completedPlan, todaysPlan }) => {
 }
 
 export default Plans
-
-const styles = StyleSheet.create({})

@@ -13,10 +13,12 @@ import Dropdown from '../components/SetPlan/Dropdown'
 import store from '../store/store';
 import timeConverter from '../utils/timeConverter';
 import axiosInstance from '../axios/axios';
-import Toast from 'react-native-toast-message';
+import { toast } from '@backpackapp-io/react-native-toast';
+import { useNavigation } from '@react-navigation/native';
 
 const EditPlan = ({ route }) => {
 
+  const navigation = useNavigation()
   const { plan } = route?.params;
   const [loading, setLoading] = useState(false)
   const {
@@ -73,18 +75,6 @@ const EditPlan = ({ route }) => {
     })
       .then((res) => {
         console.log(res.data)
-
-        const newPlan = {
-          planTitle,
-          category,
-          startingDate,
-          startingTime,
-          repeatation,
-
-        }
-
-        // console.log("plans in edit plan" , plans)
-
         const updatedPlans = plans.map((p) =>
           p._id === plan._id
             ? {
@@ -94,18 +84,39 @@ const EditPlan = ({ route }) => {
             : p
         );
         setPlans(updatedPlans);
-        Toast.show({
-          type: 'success',
-          text1: 'Plan updated successfully',
-          duration: 3000,
-          text1Style: {
-            color: "green",
-            fontSize: 14
+        toast.success(
+          "Plan updated successfully",
+          {
+            position: "top",
+            autoClose: 5000,
           }
-        })
+        )
 
       }).catch((error) => {
-        console.log(`error in update plan function ${error}`);
+
+        if (error?.response?.status === 500) {
+          navigation.push("Error")
+        }
+        if (error?.response?.status === 401) {
+          toast.error(
+            "You don't have permission to update this plan",
+            {
+              position: "top",
+              duration: 3000
+            }
+
+          )
+        }
+        if (error?.response?.status === 402) {
+          toast.error(
+            "This plan does not exist",
+            {
+              position: "top",
+              duration: 3000
+            }
+
+          )
+        }
 
       }).finally(() => {
         setLoading(false)

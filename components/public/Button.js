@@ -10,7 +10,7 @@ const ButtonComp = ({onpress,title}) => {
 
         <View style={{
         }}>
-            <Button color={colors.one} onPress={onpress} title={title} />
+            <Button  color={colors.one} onPress={onpress} title={title} />
         </View>
     )
 }

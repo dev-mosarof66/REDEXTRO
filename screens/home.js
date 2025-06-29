@@ -54,21 +54,22 @@ const Home = () => {
     setLoading(false)
 
 
-  }, [plans,user])
+  }, [plans, user])
 
   //loader
   if (loading) return <Loader />
 
   return (
-    <ScrollView style={{ flex: 1, backgroundColor: colors.five, }} showsVerticalScrollIndicator={false}
-    >
-      <SafeAreaView style={{ flex: 1, paddingHorizontal: wp(5) }}>
-        <Header setLoading={setLoading} user={user} />
+    <SafeAreaView style={{ flex: 1, paddingHorizontal: wp(5), backgroundColor: colors.five, }}>
+      <StatusBar barStyle="dark-content" backgroundColor={colors.four} />
+      <Header setLoading={setLoading} user={user} />
+      <ScrollView style={{ flex: 1, }} showsVerticalScrollIndicator={false}
+      >
         <Ongoing todaysPlans={todaysPlan} setTodaysPlan={setTodaysPlan} completedPlan={completedPlan} setCompletedPlan={setCompletedPlan} />
         <Plans upcomingPlans={upcomingPlan} completedPlan={completedPlan} todaysPlan={todaysPlan} />
         <PlanModal />
-      </SafeAreaView>
-    </ScrollView>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 

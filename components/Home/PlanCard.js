@@ -6,12 +6,10 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
-import CheckPlan from './CheckPlan';
 import store from '../../store/store';
 import timeConverter, { calculateEndingTime } from '../../utils/timeConverter';
 import { registerForPushNotificationsAsync, scheduleReminderNotification, useNotificationListeners } from '../Notification/Notification';
 import NoDataFound from './NoDataFound';
-import axiosInstance from '../../axios/axios';
 
 
 

@@ -19,7 +19,7 @@
     "@reduxjs/toolkit": "^2.8.2",
     "axios": "^1.10.0",
     "date-fns": "^4.1.0",
-    "expo": "~53.0.9",
+    "expo": "^53.0.13",
     "expo-av": "~15.1.6",
     "expo-constants": "~17.1.6",
     "expo-device": "~7.1.4",
@@ -42,8 +42,7 @@
     "react-native-safe-area-context": "5.4.0",
     "react-native-screens": "^4.11.1",
     "react-native-shimmer-placeholder": "^2.0.9",
-    "react-native-svg": "^15.12.0",
-    "react-native-toast-message": "^2.3.0",
+    "react-native-svg": "^15.11.2",
     "react-native-vector-icons": "^10.2.0",
     "react-native-wheel-picker-expo": "^0.5.4",
     "react-redux": "^9.2.0"

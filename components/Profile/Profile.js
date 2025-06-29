@@ -6,6 +6,7 @@ import {
 } from "react-native-responsive-screen";
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6'
 import { useNavigation } from "@react-navigation/native";
+import colors from "../../constants/colors";
 
 const Profile = ({ user }) => {
   const navigation = useNavigation()
@@ -13,7 +14,7 @@ const Profile = ({ user }) => {
     <View
       style={{
         width: "100%",
-        backgroundColor: "#0077B6",
+        backgroundColor: colors.two,
         marginVertical: hp(1),
         flexDirection: "row",
         alignItems: "center",
@@ -88,12 +89,12 @@ const Profile = ({ user }) => {
                 height: wp(15),
                 borderRadius: "100%",
                 overflow: "hidden",
-                backgroundColor: "gray",
+                backgroundColor: colors.four,
                 alignItems: 'center',
                 justifyContent: "center"
               }}
             >
-              <FontAwesome6 name="user-large" size={35} />
+              <FontAwesome6 name="user-large" size={35} color={colors.two} />
             </View>
             <View
               style={{
@@ -103,7 +104,7 @@ const Profile = ({ user }) => {
               <Text
                 style={{
                   fontWeight: "bold",
-                  color: "#03045E",
+                  color: colors.one,
                   fontSize: 17,
                 }}
               >
@@ -112,7 +113,7 @@ const Profile = ({ user }) => {
               <TouchableOpacity onPress={() => navigation.push("Login")}>
                 <Text
                   style={{
-                    color: "white",
+                    color: colors.four,
                     fontSize: 14,
                   }}
                 >
